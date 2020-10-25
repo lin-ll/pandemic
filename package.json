@@ -11,7 +11,7 @@
     "test": "tests"
   },
   "scripts": {
-    "build": "ember build --environment=production",
+    "build": "mkdir dist && ember build --environment=production",
     "lint": "npm-run-all --aggregate-output --continue-on-error --parallel lint:*",
     "lint:hbs": "ember-template-lint .",
     "lint:js": "eslint .",
@@ -44,6 +44,7 @@
     "ember-maybe-import-regenerator": "^0.1.6",
     "ember-qunit": "^4.6.0",
     "ember-resolver": "^8.0.2",
+    "ember-set-helper": "^1.1.0",
     "ember-source": "~3.22.0",
     "ember-template-lint": "^2.14.0",
     "ember-welcome-page": "^4.0.0",

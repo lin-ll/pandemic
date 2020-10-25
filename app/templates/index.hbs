@@ -1,2 +1,27 @@
-INDEX
-{{outlet}}
+<div class="pandemic-start">
+  <h1>
+    Stop the Pandemic
+  </h1>
+  <p>
+    Play Pandemic with your friends online!
+  </p>
+  <BsButton @onClick={{this.createNewGame}} @type="primary">
+    New Game
+  </BsButton>
+  <p>
+    or
+  </p>
+  <BsForm
+    @formLayout="inline"
+    @model={{this}}
+    class="pandemic-start__join-form"
+    @onSubmit={{this.joinGame}} as |form|
+  >
+    <form.element @controlType="text" @property="joinCode" as |el|>
+      <el.control placeholder="Code (e.g. ABCD)" />
+    </form.element>
+    <form.submitButton>
+      Join Game
+    </form.submitButton>
+  </BsForm>
+</div>
