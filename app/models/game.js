@@ -24,10 +24,10 @@ export default class GameModel extends Model {
    * 3. Draw pile
    * 4. Discard pile
    */
-  @attr('numberArray', { defaultValue: [] }) infectionDeck;
-  @attr('numberArray', { defaultValue: [] }) infectionDiscard;
-  @attr('numberArray', { defaultValue: [] }) playerDeck;
-  @attr('numberArray', { defaultValue: [] }) playerDiscard;
+  @attr('numberArray') infectionDeck;
+  @attr('numberArray') infectionDiscard;
+  @attr('numberArray') playerDeck;
+  @attr('numberArray') playerDiscard;
 
   // Number of outbreaks that have occurred
   @attr('number', { defaultValue: 0 }) numOutbreaks;
@@ -48,37 +48,47 @@ export default class GameModel extends Model {
 
   // How many research stations are still available to construct
   get remainingResearchStations() {
-    return this.cities.reduce(
-      (total, city) => total - (city.hasResearchStation ? 1 : 0),
-      TOTAL_RESEARCH_STATIONS
-    );
+    return this.cities
+      ? this.cities.reduce(
+          (total, city) => total - (city.hasResearchStation ? 1 : 0),
+          TOTAL_RESEARCH_STATIONS
+        )
+      : TOTAL_RESEARCH_STATIONS;
   }
 
   /**
    * How many disease cubes are remaining in each color
    */
   get diseaseCubesBlack() {
-    return this.cities.reduce(
-      (total, city) => total - city.diseaseCubesBlack,
-      TOTAL_DISEASE_CUBES_PER_COLOR
-    );
+    return this.cities
+      ? this.cities.reduce(
+          (total, city) => total - city.diseaseCubesBlack,
+          TOTAL_DISEASE_CUBES_PER_COLOR
+        )
+      : TOTAL_DISEASE_CUBES_PER_COLOR;
   }
   get diseaseCubesBlue() {
-    return this.cities.reduce(
-      (total, city) => total - city.diseaseCubesBlue,
-      TOTAL_DISEASE_CUBES_PER_COLOR
-    );
+    return this.cities
+      ? this.cities.reduce(
+          (total, city) => total - city.diseaseCubesBlue,
+          TOTAL_DISEASE_CUBES_PER_COLOR
+        )
+      : TOTAL_DISEASE_CUBES_PER_COLOR;
   }
   get diseaseCubesRed() {
-    return this.cities.reduce(
-      (total, city) => total - city.diseaseCubesRed,
-      TOTAL_DISEASE_CUBES_PER_COLOR
-    );
+    return this.cities
+      ? this.cities.reduce(
+          (total, city) => total - city.diseaseCubesRed,
+          TOTAL_DISEASE_CUBES_PER_COLOR
+        )
+      : TOTAL_DISEASE_CUBES_PER_COLOR;
   }
   get diseaseCubesYellow() {
-    return this.cities.reduce(
-      (total, city) => total - city.diseaseCubesYellow,
-      TOTAL_DISEASE_CUBES_PER_COLOR
-    );
+    return this.cities
+      ? this.cities.reduce(
+          (total, city) => total - city.diseaseCubesYellow,
+          TOTAL_DISEASE_CUBES_PER_COLOR
+        )
+      : TOTAL_DISEASE_CUBES_PER_COLOR;
   }
 }

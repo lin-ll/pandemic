@@ -1,8 +1,10 @@
-import Model, { attr } from '@ember-data/model';
+import Model, { attr, belongsTo } from '@ember-data/model';
 
 export default class CityModel extends Model {
   // Unique identifier for the city, should also map to its card ID
   @attr('number') id;
+
+  @belongsTo('game') game;
 
   // How many disease cubes of each color are on the city
   @attr('number', { defaultValue: 0 }) diseaseCubesBlack;

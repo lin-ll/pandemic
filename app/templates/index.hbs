@@ -14,8 +14,8 @@
   <BsForm
     @formLayout="inline"
     @model={{this}}
-    class="pandemic-start__join-form"
-    @onSubmit={{this.joinGame}} as |form|
+    @onSubmit={{this.joinGame}}
+    class="pandemic-start__join-form" as |form|
   >
     <form.element @controlType="text" @property="joinCode" as |el|>
       <el.control placeholder="Code (e.g. ABCD)" />

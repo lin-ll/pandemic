@@ -1,9 +1,11 @@
-import Model, { attr } from '@ember-data/model';
+import Model, { attr, belongsTo } from '@ember-data/model';
 
 const HAND_LIMIT = 7;
 
 export default class PlayerModel extends Model {
   @attr('number') id;
+
+  @belongsTo('game') game;
 
   // Player's name
   @attr('string') name;
@@ -12,10 +14,10 @@ export default class PlayerModel extends Model {
   @attr('number') role;
 
   // Player's hand
-  @attr('numberArray', { defaultValue: [] }) hand;
+  @attr('numberArray') hand;
 
   // Player needs to discard / use cards if over the hand limit
   get overHandLimit() {
-    return this.hand.length > HAND_LIMIT;
+    return this.hand ? this.hand.length > HAND_LIMIT : false;
   }
 }
