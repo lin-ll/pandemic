@@ -59,18 +59,17 @@ export default class IndexController extends Controller {
   }
 
   _initializeNewGame(code) {
-    let newGame = this.store.createRecord('game', {
+    const newGame = this.store.createRecord('game', {
       code,
       infectionDeck: [1, 2, 3],
       infectionDiscard: [],
       playerDeck: [4, 5, 6],
       playerDiscard: [],
     });
-
     newGame.save();
 
     for (let i = 0; i < NUM_CITIES; i++) {
-      let city = this.store.createRecord('city', {
+      const city = this.store.createRecord('city', {
         cardId: i,
         game: newGame,
       });
