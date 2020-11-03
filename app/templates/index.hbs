@@ -2,13 +2,13 @@
   <h1>
     Stop the Pandemic
   </h1>
-  <p>
+  <p class="mb-5">
     Play Pandemic with your friends online!
   </p>
   <BsButton @onClick={{this.createNewGame}} @type="primary">
     New Game
   </BsButton>
-  <p>
+  <p class="my-1">
     or
   </p>
   <BsForm
@@ -18,7 +18,7 @@
     class="justify-content-center" as |form|
   >
     <form.element @controlType="text" @property="joinCode" as |el|>
-      <el.control placeholder="Code (e.g. ABCD)" />
+      <el.control class="mr-2" placeholder="Code (e.g. ABCD)" />
     </form.element>
     <form.submitButton>
       Join Game
