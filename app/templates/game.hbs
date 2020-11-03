@@ -1,18 +1,41 @@
-
-<div class="text-center mt-3">
+<div class="pandemic-game {{if this.openTeamInfo 'pandemic-game--pushed'}}">
   <h1>
     Stop the Pandemic
   </h1>
   <p>
-    Your game code is: {{uppercase this.model.code}}
+    Your game code is:
+    {{uppercase this.model.code}}
   </p>
   <p>
-  cities
-  {{#each model.cities as |city|}}
-    <li>
-      id is
-      {{city.cardId}}
-    </li>
-  {{/each}}
-</p>
+    cities
+    {{#each model.cities as |city|}}
+      <li>
+        id is
+        {{city.cardId}}
+      </li>
+    {{/each}}
+  </p>
+</div>
+<div class="pandemic-game__team-trigger">
+  <BsButton
+    @onClick={{set this.openTeamInfo (not this.openTeamInfo)}}
+    @type="primary"
+  >
+    {{if this.openTeamInfo 'Close Team Info' 'Open Team Info'}}
+  </BsButton>
+</div>
+<div
+  class="pandemic-game__team
+    {{if this.openTeamInfo 'pandemic-game__team--open'}}"
+>
+  <div class="px-4">
+    {{#each this.model.players as |player|}}
+      <span
+        class="pandemic-game__player
+          {{if player.isTurn 'pandemic-game__player--active'}}"
+      >
+        {{player.name}}
+      </span>
+    {{/each}}
+  </div>
 </div>

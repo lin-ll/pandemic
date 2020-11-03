@@ -1,4 +1,4 @@
-import Model, { attr, hasMany } from '@ember-data/model';
+import Model, { attr, belongsTo, hasMany } from '@ember-data/model';
 
 const INFECTION_RATES = [2, 2, 2, 3, 3, 4, 4];
 const TOTAL_RESEARCH_STATIONS = 6;

@@ -8,7 +8,7 @@ export default class GameRoute extends Route {
       .queryRecord('game', { filter: { code } })
       .then((game) => hash({ game, players: game.players }))
       .then(({ game, players }) => {
-        if (game.inProgress || players.length === MAX_PLAYERS) {
+        if (game.inProgress || players.length >= MAX_PLAYERS) {
           this.replaceWith('index');
         }
 

@@ -14,6 +14,9 @@ export default class PlayerModel extends Model {
   // Player's hand
   @attr('numberArray') hand;
 
+  // Whether or not it is this player's turn
+  @attr('boolean', { defaultValue: false }) isTurn;
+
   // Player needs to discard / use cards if over the hand limit
   get overHandLimit() {
     return this.hand ? this.hand.length > HAND_LIMIT : false;

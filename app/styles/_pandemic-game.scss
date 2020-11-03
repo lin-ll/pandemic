@@ -1,0 +1,43 @@
+$team-drawer-width: 250px;
+
+.pandemic-game {
+  text-align: center;
+  margin-top: 1rem;
+}
+
+.pandemic-game--pushed {
+  margin-right: $team-drawer-width;
+}
+
+.pandemic-game__team-trigger {
+  position: absolute;
+  top: 25px;
+  right: 25px;
+  z-index: 10;
+}
+
+.pandemic-game__team {
+  height: 100%; /* 100% Full-height */
+  width: 0; /* 0 width - change this with JavaScript */
+  position: fixed; /* Stay in place */
+  z-index: 1; /* Stay on top */
+  top: 0; /* Stay at the top */
+  right: 0;
+  background-color: lightblue; /* Black*/
+  overflow-x: hidden; /* Disable horizontal scroll */
+  padding-top: 96px; /* Place content 60px from the top */
+  transition: 0.5s; /* 0.5 second transition effect to slide in the sidenav */
+}
+
+.pandemic-game__team--open {
+  width: $team-drawer-width;
+}
+
+.pandemic-game__player {
+  color: grey;
+}
+
+.pandemic-game__player--active {
+  color: green;
+  font-weight: bold;
+}
