@@ -2,7 +2,7 @@ import Controller from '@ember/controller';
 import { action } from '@ember/object';
 import { reject } from 'rsvp';
 import { tracked } from '@glimmer/tracking';
-import { MAX_PLAYERS } from '../utils/constants';
+import { MAX_PLAYERS, NUM_CITIES } from '../utils/constants';
 
 const ALPHABET = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
 
@@ -56,7 +56,24 @@ export default class IndexController extends Controller {
   }
 
   _initializeNewGame(code) {
-    debugger;
+    let newGame = this.store.createRecord('game', {
+      code,
+      infectionDeck: [1, 2, 3],
+      infectionDiscard: [],
+      playerDeck: [4, 5, 6],
+      playerDiscard: [],
+    });
+
+    newGame.save();
+
+    for (let i = 0; i < NUM_CITIES; i++) {
+      let city = this.store.createRecord('city', {
+        cardId: i,
+        game: newGame,
+      });
+      city.save();
+    }
+
     this.transitionToRoute('game', code);
   }
 }

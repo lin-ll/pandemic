@@ -14,6 +14,8 @@ export const CITIES = [
   },
 ];
 
+export const NUM_CITIES = CITIES.length;
+
 const non_city_player_cards = [
   { name: 'Epidemic', is_city: false },
   { name: 'Helicopter', is_city: false },

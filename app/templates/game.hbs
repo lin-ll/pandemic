@@ -5,3 +5,12 @@
   Your game code is:
   {{model.code}}
 </h2>
+<p>
+  cities
+  {{#each model.cities as |city|}}
+    <li>
+      id is
+      {{city.cardId}}
+    </li>
+  {{/each}}
+</p>
