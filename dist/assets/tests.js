@@ -1,5 +1,21 @@
 'use strict';
 
+define("pandemic/tests/integration/helpers/uppercase-test", ["qunit", "ember-qunit", "@ember/test-helpers"], function (_qunit, _emberQunit, _testHelpers) {
+  "use strict";
+
+  (0, _qunit.module)('Integration | Helper | uppercase', function (hooks) {
+    (0, _emberQunit.setupRenderingTest)(hooks);
+    (0, _qunit.test)('it renders', async function (assert) {
+      this.set('string', 'foobar');
+      await (0, _testHelpers.render)(Ember.HTMLBars.template(
+      /*
+        {{uppercase this.string}}
+      */
+      {"id":"S3iR0BRY","block":"{\"symbols\":[],\"statements\":[[1,[30,[36,0],[[32,0,[\"string\"]]],null]]],\"hasEval\":false,\"upvars\":[\"uppercase\"]}","meta":{}}));
+      assert.equal(this.element.textContent.trim(), 'FOOBAR');
+    });
+  });
+});
 define("pandemic/tests/test-helper", ["pandemic/app", "pandemic/config/environment", "@ember/test-helpers", "ember-qunit"], function (_app, _environment, _testHelpers, _emberQunit) {
   "use strict";
 
@@ -80,17 +96,6 @@ define("pandemic/tests/unit/routes/game-test", ["qunit", "ember-qunit"], functio
     });
   });
 });
-define("pandemic/tests/unit/routes/index-test", ["qunit", "ember-qunit"], function (_qunit, _emberQunit) {
-  "use strict";
-
-  (0, _qunit.module)('Unit | Route | index', function (hooks) {
-    (0, _emberQunit.setupTest)(hooks);
-    (0, _qunit.test)('it exists', function (assert) {
-      let route = this.owner.lookup('route:index');
-      assert.ok(route);
-    });
-  });
-});
 define("pandemic/tests/unit/transforms/number-array-test", ["qunit", "ember-qunit"], function (_qunit, _emberQunit) {
   "use strict";
 
@@ -100,17 +105,6 @@ define("pandemic/tests/unit/transforms/number-array-test", ["qunit", "ember-quni
     (0, _qunit.test)('it exists', function (assert) {
       let transform = this.owner.lookup('transform:number-array');
       assert.ok(transform);
-    });
-  });
-});
-define("pandemic/tests/unit/utils/constants-test", ["pandemic/utils/constants", "qunit"], function (_constants, _qunit) {
-  "use strict";
-
-  (0, _qunit.module)('Unit | Utility | constants', function () {
-    // TODO: Replace this with your real tests.
-    (0, _qunit.test)('it works', function (assert) {
-      let result = (0, _constants.default)();
-      assert.ok(result);
     });
   });
 });

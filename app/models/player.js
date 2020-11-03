@@ -3,8 +3,6 @@ import Model, { attr, belongsTo } from '@ember-data/model';
 const HAND_LIMIT = 7;
 
 export default class PlayerModel extends Model {
-  @attr('number') id;
-
   @belongsTo('game') game;
 
   // Player's name

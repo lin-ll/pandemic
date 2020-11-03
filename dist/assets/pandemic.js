@@ -1330,6 +1330,20 @@
     }
   });
 });
+;define("pandemic/helpers/uppercase", ["exports"], function (_exports) {
+  "use strict";
+
+  Object.defineProperty(_exports, "__esModule", {
+    value: true
+  });
+  _exports.default = void 0;
+
+  var _default = Ember.Helper.helper(function uppercase([s]) {
+    return s.toUpperCase();
+  });
+
+  _exports.default = _default;
+});
 ;define("pandemic/index", [], function () {
   "use strict";
 });
@@ -1555,7 +1569,7 @@
     constructor(...args) {
       super(...args);
 
-      _initializerDefineProperty(this, "id", _descriptor, this);
+      _initializerDefineProperty(this, "cardId", _descriptor, this);
 
       _initializerDefineProperty(this, "game", _descriptor2, this);
 
@@ -1570,7 +1584,7 @@
       _initializerDefineProperty(this, "hasResearchStation", _descriptor7, this);
     }
 
-  }, _temp), (_descriptor = _applyDecoratedDescriptor(_class.prototype, "id", [_dec], {
+  }, _temp), (_descriptor = _applyDecoratedDescriptor(_class.prototype, "cardId", [_dec], {
     configurable: true,
     enumerable: true,
     writable: true,
@@ -1788,7 +1802,7 @@
   });
   _exports.default = void 0;
 
-  var _dec, _dec2, _dec3, _dec4, _dec5, _class, _descriptor, _descriptor2, _descriptor3, _descriptor4, _descriptor5, _temp;
+  var _dec, _dec2, _dec3, _dec4, _class, _descriptor, _descriptor2, _descriptor3, _descriptor4, _temp;
 
   function _initializerDefineProperty(target, property, descriptor, context) { if (!descriptor) return; Object.defineProperty(target, property, { enumerable: descriptor.enumerable, configurable: descriptor.configurable, writable: descriptor.writable, value: descriptor.initializer ? descriptor.initializer.call(context) : void 0 }); }
 
@@ -1799,19 +1813,17 @@
   function _initializerWarningHelper(descriptor, context) { throw new Error('Decorating class property failed. Please ensure that ' + 'proposal-class-properties is enabled and runs after the decorators transform.'); }
 
   const HAND_LIMIT = 7;
-  let PlayerModel = (_dec = (0, _model.attr)('number'), _dec2 = (0, _model.belongsTo)('game'), _dec3 = (0, _model.attr)('string'), _dec4 = (0, _model.attr)('number'), _dec5 = (0, _model.attr)('numberArray'), (_class = (_temp = class PlayerModel extends _model.default {
+  let PlayerModel = (_dec = (0, _model.belongsTo)('game'), _dec2 = (0, _model.attr)('string'), _dec3 = (0, _model.attr)('number'), _dec4 = (0, _model.attr)('numberArray'), (_class = (_temp = class PlayerModel extends _model.default {
     constructor(...args) {
       super(...args);
 
-      _initializerDefineProperty(this, "id", _descriptor, this);
+      _initializerDefineProperty(this, "game", _descriptor, this);
 
-      _initializerDefineProperty(this, "game", _descriptor2, this);
+      _initializerDefineProperty(this, "name", _descriptor2, this);
 
-      _initializerDefineProperty(this, "name", _descriptor3, this);
+      _initializerDefineProperty(this, "role", _descriptor3, this);
 
-      _initializerDefineProperty(this, "role", _descriptor4, this);
-
-      _initializerDefineProperty(this, "hand", _descriptor5, this);
+      _initializerDefineProperty(this, "hand", _descriptor4, this);
     }
 
     // Player needs to discard / use cards if over the hand limit
@@ -1819,27 +1831,22 @@
       return this.hand ? this.hand.length > HAND_LIMIT : false;
     }
 
-  }, _temp), (_descriptor = _applyDecoratedDescriptor(_class.prototype, "id", [_dec], {
+  }, _temp), (_descriptor = _applyDecoratedDescriptor(_class.prototype, "game", [_dec], {
     configurable: true,
     enumerable: true,
     writable: true,
     initializer: null
-  }), _descriptor2 = _applyDecoratedDescriptor(_class.prototype, "game", [_dec2], {
+  }), _descriptor2 = _applyDecoratedDescriptor(_class.prototype, "name", [_dec2], {
     configurable: true,
     enumerable: true,
     writable: true,
     initializer: null
-  }), _descriptor3 = _applyDecoratedDescriptor(_class.prototype, "name", [_dec3], {
+  }), _descriptor3 = _applyDecoratedDescriptor(_class.prototype, "role", [_dec3], {
     configurable: true,
     enumerable: true,
     writable: true,
     initializer: null
-  }), _descriptor4 = _applyDecoratedDescriptor(_class.prototype, "role", [_dec4], {
-    configurable: true,
-    enumerable: true,
-    writable: true,
-    initializer: null
-  }), _descriptor5 = _applyDecoratedDescriptor(_class.prototype, "hand", [_dec5], {
+  }), _descriptor4 = _applyDecoratedDescriptor(_class.prototype, "hand", [_dec4], {
     configurable: true,
     enumerable: true,
     writable: true,
@@ -1951,6 +1958,9 @@
     this.route('game', {
       path: '/:code'
     });
+    this.route('not-found', {
+      path: '/*path'
+    });
   });
 });
 ;define("pandemic/routes/game", ["exports"], function (_exports) {
@@ -1965,26 +1975,22 @@
     model({
       code
     }) {
-      return {
-        code
-      };
+      return this.store.queryRecord('game', {
+        filter: {
+          code
+        }
+      }).then(game => {
+        if (game.inProgress) {
+          this.replaceWith('index');
+        }
+
+        return game;
+      });
     }
 
   }
 
   _exports.default = GameRoute;
-});
-;define("pandemic/routes/index", ["exports"], function (_exports) {
-  "use strict";
-
-  Object.defineProperty(_exports, "__esModule", {
-    value: true
-  });
-  _exports.default = void 0;
-
-  class IndexRoute extends Ember.Route {}
-
-  _exports.default = IndexRoute;
 });
 ;define("pandemic/serializers/-default", ["exports", "@ember-data/serializer/json"], function (_exports, _json) {
   "use strict";
@@ -2090,6 +2096,24 @@
     }
   });
 });
+;define("pandemic/templates/error", ["exports"], function (_exports) {
+  "use strict";
+
+  Object.defineProperty(_exports, "__esModule", {
+    value: true
+  });
+  _exports.default = void 0;
+
+  var _default = Ember.HTMLBars.template({
+    "id": "D4JRsnO+",
+    "block": "{\"symbols\":[],\"statements\":[[10,\"p\"],[12],[2,\"An error has occurred.\"],[13]],\"hasEval\":false,\"upvars\":[]}",
+    "meta": {
+      "moduleName": "pandemic/templates/error.hbs"
+    }
+  });
+
+  _exports.default = _default;
+});
 ;define("pandemic/templates/game", ["exports"], function (_exports) {
   "use strict";
 
@@ -2099,8 +2123,8 @@
   _exports.default = void 0;
 
   var _default = Ember.HTMLBars.template({
-    "id": "tp2IyfZT",
-    "block": "{\"symbols\":[],\"statements\":[[10,\"h1\"],[12],[2,\"\\n  Stop the Pandemic\\n\"],[13],[2,\"\\n\"],[10,\"h2\"],[12],[2,\"\\n  Your game code is:\\n  \"],[1,[35,0,[\"code\"]]],[2,\"\\n\"],[13],[2,\"\\n\"]],\"hasEval\":false,\"upvars\":[\"model\"]}",
+    "id": "oQ4NME9E",
+    "block": "{\"symbols\":[],\"statements\":[[10,\"div\"],[14,0,\"text-center mt-3\"],[12],[2,\"\\n  \"],[10,\"h1\"],[12],[2,\"\\n    Stop the Pandemic\\n  \"],[13],[2,\"\\n  \"],[10,\"p\"],[12],[2,\"\\n    Your game code is: \"],[1,[30,[36,1],[[35,0,[\"code\"]]],null]],[2,\"\\n  \"],[13],[2,\"\\n\"],[13]],\"hasEval\":false,\"upvars\":[\"model\",\"uppercase\"]}",
     "meta": {
       "moduleName": "pandemic/templates/game.hbs"
     }
@@ -2121,6 +2145,24 @@
     "block": "{\"symbols\":[\"form\",\"el\"],\"statements\":[[10,\"div\"],[14,0,\"pandemic-start\"],[12],[2,\"\\n  \"],[10,\"h1\"],[12],[2,\"\\n    Stop the Pandemic\\n  \"],[13],[2,\"\\n  \"],[10,\"p\"],[14,0,\"mb-5\"],[12],[2,\"\\n    Play Pandemic with your friends online!\\n  \"],[13],[2,\"\\n  \"],[8,\"bs-button\",[],[[\"@onClick\",\"@type\"],[[32,0,[\"createNewGame\"]],\"primary\"]],[[\"default\"],[{\"statements\":[[2,\"\\n    New Game\\n  \"]],\"parameters\":[]}]]],[2,\"\\n  \"],[10,\"p\"],[14,0,\"my-1\"],[12],[2,\"\\n    or\\n  \"],[13],[2,\"\\n  \"],[8,\"bs-form\",[[24,0,\"justify-content-center\"]],[[\"@formLayout\",\"@model\",\"@onSubmit\"],[\"inline\",[32,0],[32,0,[\"joinGame\"]]]],[[\"default\"],[{\"statements\":[[2,\"\\n    \"],[8,[32,1,[\"element\"]],[],[[\"@controlType\",\"@property\"],[\"text\",\"joinCode\"]],[[\"default\"],[{\"statements\":[[2,\"\\n      \"],[8,[32,2,[\"control\"]],[[24,0,\"mr-2\"],[24,\"placeholder\",\"Code (e.g. ABCD)\"]],[[],[]],null],[2,\"\\n    \"]],\"parameters\":[2]}]]],[2,\"\\n    \"],[8,[32,1,[\"submitButton\"]],[],[[\"@type\"],[[30,[36,0],[[32,1,[\"isRejected\"]],\"danger\",\"primary\"],null]]],[[\"default\"],[{\"statements\":[[2,\"\\n      Join Game\\n    \"]],\"parameters\":[]}]]],[2,\"\\n  \"]],\"parameters\":[1]}]]],[2,\"\\n\"],[6,[37,0],[[32,0,[\"joinErrorMessage\"]]],null,[[\"default\"],[{\"statements\":[[2,\"    \"],[10,\"p\"],[14,0,\"font-weight-light text-danger\"],[12],[2,\"\\n      \"],[1,[32,0,[\"joinErrorMessage\"]]],[2,\"\\n    \"],[13],[2,\"\\n\"]],\"parameters\":[]}]]],[13]],\"hasEval\":false,\"upvars\":[\"if\"]}",
     "meta": {
       "moduleName": "pandemic/templates/index.hbs"
+    }
+  });
+
+  _exports.default = _default;
+});
+;define("pandemic/templates/not-found", ["exports"], function (_exports) {
+  "use strict";
+
+  Object.defineProperty(_exports, "__esModule", {
+    value: true
+  });
+  _exports.default = void 0;
+
+  var _default = Ember.HTMLBars.template({
+    "id": "tLNDu/cK",
+    "block": "{\"symbols\":[],\"statements\":[[10,\"p\"],[12],[2,\"Oops, the page you're looking for is not available.\"],[13]],\"hasEval\":false,\"upvars\":[]}",
+    "meta": {
+      "moduleName": "pandemic/templates/not-found.hbs"
     }
   });
 
