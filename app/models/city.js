@@ -1,8 +1,7 @@
 import Model, { attr, belongsTo } from '@ember-data/model';
 
 export default class CityModel extends Model {
-  // Unique identifier for the city, should also map to its card ID
-  @attr('number') id;
+  @attr('number') cardId;
 
   @belongsTo('game') game;
 
