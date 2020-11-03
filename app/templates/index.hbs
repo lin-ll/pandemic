@@ -20,8 +20,13 @@
     <form.element @controlType="text" @property="joinCode" as |el|>
       <el.control class="mr-2" placeholder="Code (e.g. ABCD)" />
     </form.element>
-    <form.submitButton>
+    <form.submitButton @type={{if form.isRejected 'danger' 'primary'}}>
       Join Game
     </form.submitButton>
   </BsForm>
+  {{#if this.joinErrorMessage}}
+    <p class="font-weight-light text-danger">
+      {{this.joinErrorMessage}}
+    </p>
+  {{/if}}
 </div>

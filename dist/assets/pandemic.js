@@ -961,7 +961,7 @@
 
   _exports.default = GameController;
 });
-;define("pandemic/controllers/index", ["exports"], function (_exports) {
+;define("pandemic/controllers/index", ["exports", "pandemic/utils/constants"], function (_exports, _constants) {
   "use strict";
 
   Object.defineProperty(_exports, "__esModule", {
@@ -969,18 +969,24 @@
   });
   _exports.default = void 0;
 
-  var _dec, _dec2, _class, _temp;
+  var _dec, _dec2, _dec3, _class, _descriptor, _temp;
+
+  function _initializerDefineProperty(target, property, descriptor, context) { if (!descriptor) return; Object.defineProperty(target, property, { enumerable: descriptor.enumerable, configurable: descriptor.configurable, writable: descriptor.writable, value: descriptor.initializer ? descriptor.initializer.call(context) : void 0 }); }
 
   function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
   function _applyDecoratedDescriptor(target, property, decorators, descriptor, context) { var desc = {}; Object.keys(descriptor).forEach(function (key) { desc[key] = descriptor[key]; }); desc.enumerable = !!desc.enumerable; desc.configurable = !!desc.configurable; if ('value' in desc || desc.initializer) { desc.writable = true; } desc = decorators.slice().reverse().reduce(function (desc, decorator) { return decorator(target, property, desc) || desc; }, desc); if (context && desc.initializer !== void 0) { desc.value = desc.initializer ? desc.initializer.call(context) : void 0; desc.initializer = undefined; } if (desc.initializer === void 0) { Object.defineProperty(target, property, desc); desc = null; } return desc; }
 
+  function _initializerWarningHelper(descriptor, context) { throw new Error('Decorating class property failed. Please ensure that ' + 'proposal-class-properties is enabled and runs after the decorators transform.'); }
+
   const ALPHABET = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
-  let IndexController = (_dec = Ember._action, _dec2 = Ember._action, (_class = (_temp = class IndexController extends Ember.Controller {
+  let IndexController = (_dec = Ember._tracked, _dec2 = Ember._action, _dec3 = Ember._action, (_class = (_temp = class IndexController extends Ember.Controller {
     constructor(...args) {
       super(...args);
 
       _defineProperty(this, "joinCode", '');
+
+      _initializerDefineProperty(this, "joinErrorMessage", _descriptor, this);
     }
 
     createNewGame() {
@@ -1005,14 +1011,18 @@
         }
       }).then(game => {
         if (game.inProgress) {
-          Ember.RSVP.reject('Game is already in progress: ' + this.joinCode);
-        } else if (game.players.length === 4) {
-          Ember.RSVP.reject('Game has already reached max players: ' + this.joinCode);
+          this.joinErrorMessage = `Game ${this.joinCode} is already in progress`;
+          Ember.RSVP.reject(this.joinErrorMessage);
+        } else if (game.players.length === _constants.MAX_PLAYERS) {
+          this.joinErrorMessage = `Game ${this.joinCode} already has the maximum number of players`;
+          Ember.RSVP.reject(this.joinErrorMessage);
         } else {
+          this.joinErrorMessage = '';
           this.transitionToRoute('game', this.joinCode);
         }
       }).catch(e => {
-        Ember.RSVP.reject('Error: Game potentially does not exist: ' + this.joinCode);
+        this.joinErrorMessage = `Unexpected error: ${e.message}`;
+        Ember.RSVP.reject(this.joinErrorMessage);
       });
     }
 
@@ -1031,7 +1041,14 @@
       this.transitionToRoute('game', code);
     }
 
-  }, _temp), (_applyDecoratedDescriptor(_class.prototype, "createNewGame", [_dec], Object.getOwnPropertyDescriptor(_class.prototype, "createNewGame"), _class.prototype), _applyDecoratedDescriptor(_class.prototype, "joinGame", [_dec2], Object.getOwnPropertyDescriptor(_class.prototype, "joinGame"), _class.prototype)), _class));
+  }, _temp), (_descriptor = _applyDecoratedDescriptor(_class.prototype, "joinErrorMessage", [_dec], {
+    configurable: true,
+    enumerable: true,
+    writable: true,
+    initializer: function () {
+      return '';
+    }
+  }), _applyDecoratedDescriptor(_class.prototype, "createNewGame", [_dec2], Object.getOwnPropertyDescriptor(_class.prototype, "createNewGame"), _class.prototype), _applyDecoratedDescriptor(_class.prototype, "joinGame", [_dec3], Object.getOwnPropertyDescriptor(_class.prototype, "joinGame"), _class.prototype)), _class));
   _exports.default = IndexController;
 });
 ;define("pandemic/data-adapter", ["exports", "@ember-data/debug"], function (_exports, _debug) {
@@ -2100,8 +2117,8 @@
   _exports.default = void 0;
 
   var _default = Ember.HTMLBars.template({
-    "id": "wOQ6Ycpb",
-    "block": "{\"symbols\":[\"form\",\"el\"],\"statements\":[[10,\"div\"],[14,0,\"pandemic-start\"],[12],[2,\"\\n  \"],[10,\"h1\"],[12],[2,\"\\n    Stop the Pandemic\\n  \"],[13],[2,\"\\n  \"],[10,\"p\"],[14,0,\"mb-5\"],[12],[2,\"\\n    Play Pandemic with your friends online!\\n  \"],[13],[2,\"\\n  \"],[8,\"bs-button\",[],[[\"@onClick\",\"@type\"],[[32,0,[\"createNewGame\"]],\"primary\"]],[[\"default\"],[{\"statements\":[[2,\"\\n    New Game\\n  \"]],\"parameters\":[]}]]],[2,\"\\n  \"],[10,\"p\"],[14,0,\"my-1\"],[12],[2,\"\\n    or\\n  \"],[13],[2,\"\\n  \"],[8,\"bs-form\",[[24,0,\"justify-content-center\"]],[[\"@formLayout\",\"@model\",\"@onSubmit\"],[\"inline\",[32,0],[32,0,[\"joinGame\"]]]],[[\"default\"],[{\"statements\":[[2,\"\\n    \"],[8,[32,1,[\"element\"]],[],[[\"@controlType\",\"@property\"],[\"text\",\"joinCode\"]],[[\"default\"],[{\"statements\":[[2,\"\\n      \"],[8,[32,2,[\"control\"]],[[24,0,\"mr-2\"],[24,\"placeholder\",\"Code (e.g. ABCD)\"]],[[],[]],null],[2,\"\\n    \"]],\"parameters\":[2]}]]],[2,\"\\n    \"],[8,[32,1,[\"submitButton\"]],[],[[],[]],[[\"default\"],[{\"statements\":[[2,\"\\n      Join Game\\n    \"]],\"parameters\":[]}]]],[2,\"\\n  \"]],\"parameters\":[1]}]]],[2,\"\\n\"],[13]],\"hasEval\":false,\"upvars\":[]}",
+    "id": "+uy7lYMF",
+    "block": "{\"symbols\":[\"form\",\"el\"],\"statements\":[[10,\"div\"],[14,0,\"pandemic-start\"],[12],[2,\"\\n  \"],[10,\"h1\"],[12],[2,\"\\n    Stop the Pandemic\\n  \"],[13],[2,\"\\n  \"],[10,\"p\"],[14,0,\"mb-5\"],[12],[2,\"\\n    Play Pandemic with your friends online!\\n  \"],[13],[2,\"\\n  \"],[8,\"bs-button\",[],[[\"@onClick\",\"@type\"],[[32,0,[\"createNewGame\"]],\"primary\"]],[[\"default\"],[{\"statements\":[[2,\"\\n    New Game\\n  \"]],\"parameters\":[]}]]],[2,\"\\n  \"],[10,\"p\"],[14,0,\"my-1\"],[12],[2,\"\\n    or\\n  \"],[13],[2,\"\\n  \"],[8,\"bs-form\",[[24,0,\"justify-content-center\"]],[[\"@formLayout\",\"@model\",\"@onSubmit\"],[\"inline\",[32,0],[32,0,[\"joinGame\"]]]],[[\"default\"],[{\"statements\":[[2,\"\\n    \"],[8,[32,1,[\"element\"]],[],[[\"@controlType\",\"@property\"],[\"text\",\"joinCode\"]],[[\"default\"],[{\"statements\":[[2,\"\\n      \"],[8,[32,2,[\"control\"]],[[24,0,\"mr-2\"],[24,\"placeholder\",\"Code (e.g. ABCD)\"]],[[],[]],null],[2,\"\\n    \"]],\"parameters\":[2]}]]],[2,\"\\n    \"],[8,[32,1,[\"submitButton\"]],[],[[\"@type\"],[[30,[36,0],[[32,1,[\"isRejected\"]],\"danger\",\"primary\"],null]]],[[\"default\"],[{\"statements\":[[2,\"\\n      Join Game\\n    \"]],\"parameters\":[]}]]],[2,\"\\n  \"]],\"parameters\":[1]}]]],[2,\"\\n\"],[6,[37,0],[[32,0,[\"joinErrorMessage\"]]],null,[[\"default\"],[{\"statements\":[[2,\"    \"],[10,\"p\"],[14,0,\"font-weight-light text-danger\"],[12],[2,\"\\n      \"],[1,[32,0,[\"joinErrorMessage\"]]],[2,\"\\n    \"],[13],[2,\"\\n\"]],\"parameters\":[]}]]],[13]],\"hasEval\":false,\"upvars\":[\"if\"]}",
     "meta": {
       "moduleName": "pandemic/templates/index.hbs"
     }
@@ -2188,7 +2205,7 @@
   Object.defineProperty(_exports, "__esModule", {
     value: true
   });
-  _exports.ROLES = _exports.PLAYERCARDS = _exports.CITIES = void 0;
+  _exports.MAX_PLAYERS = _exports.ROLES = _exports.PLAYERCARDS = _exports.CITIES = void 0;
   const CITIES = [{
     name: 'Atlanta',
     color: 'blue',
@@ -2216,10 +2233,12 @@
     return card;
   }
 
-  const PLAYERCARDS = CITIES.map(city_to_card).concat(non_city_cards);
+  const PLAYERCARDS = CITIES.map(city_to_card).concat(non_city_player_cards);
   _exports.PLAYERCARDS = PLAYERCARDS;
   const ROLES = ['Walking Jesus', 'Quarantine Queen', 'Scientist', 'Researcher', 'Dispatcher'];
   _exports.ROLES = ROLES;
+  const MAX_PLAYERS = 4;
+  _exports.MAX_PLAYERS = MAX_PLAYERS;
 });
 ;
 

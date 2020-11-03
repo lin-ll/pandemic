@@ -1,11 +1,15 @@
 import Controller from '@ember/controller';
 import { action } from '@ember/object';
 import { reject } from 'rsvp';
+import { tracked } from '@glimmer/tracking';
+import { MAX_PLAYERS } from '../utils/constants';
 
 const ALPHABET = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
 
 export default class IndexController extends Controller {
   joinCode = '';
+
+  @tracked joinErrorMessage = '';
 
   @action
   createNewGame() {
@@ -27,15 +31,19 @@ export default class IndexController extends Controller {
       .queryRecord('game', { filter: { code: this.joinCode } })
       .then((game) => {
         if (game.inProgress) {
-          reject('Game is already in progress: ' + this.joinCode);
-        } else if (game.players.length === 4) {
-          reject('Game has already reached max players: ' + this.joinCode);
+          this.joinErrorMessage = `Game ${this.joinCode} is already in progress`;
+          reject(this.joinErrorMessage);
+        } else if (game.players.length === MAX_PLAYERS) {
+          this.joinErrorMessage = `Game ${this.joinCode} already has the maximum number of players`;
+          reject(this.joinErrorMessage);
         } else {
+          this.joinErrorMessage = '';
           this.transitionToRoute('game', this.joinCode);
         }
       })
       .catch((e) => {
-        reject('Error: Game potentially does not exist: ' + this.joinCode);
+        this.joinErrorMessage = `Unexpected error: ${e.message}`;
+        reject(this.joinErrorMessage);
       });
   }
 

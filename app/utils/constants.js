@@ -28,7 +28,9 @@ function city_to_card(city) {
   return card;
 }
 
-export const PLAYERCARDS = CITIES.map(city_to_card).concat(non_city_cards);
+export const PLAYERCARDS = CITIES.map(city_to_card).concat(
+  non_city_player_cards
+);
 
 export const ROLES = [
   'Walking Jesus',
@@ -37,3 +39,5 @@ export const ROLES = [
   'Researcher',
   'Dispatcher',
 ];
+
+export const MAX_PLAYERS = 4;
