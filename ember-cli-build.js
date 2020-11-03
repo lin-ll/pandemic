@@ -8,6 +8,9 @@ module.exports = function (defaults) {
       bootstrapVersion: 4,
       importBootstrapCSS: true,
     },
+    sassOptions: {
+      extension: 'scss',
+    },
   });
 
   // Use `app.import` to add additional libraries to the generated
