@@ -1013,13 +1013,17 @@
         if (game.inProgress) {
           this.joinErrorMessage = `Game ${this.joinCode} is already in progress`;
           Ember.RSVP.reject(this.joinErrorMessage);
-        } else if (game.players.length === _constants.MAX_PLAYERS) {
+        }
+
+        return game.players;
+      }).then(players => {
+        if (players.length === _constants.MAX_PLAYERS) {
           this.joinErrorMessage = `Game ${this.joinCode} already has the maximum number of players`;
           Ember.RSVP.reject(this.joinErrorMessage);
-        } else {
-          this.joinErrorMessage = '';
-          this.transitionToRoute('game', this.joinCode);
         }
+
+        this.joinErrorMessage = '';
+        this.transitionToRoute('game', this.joinCode);
       }).catch(e => {
         this.joinErrorMessage = `Unexpected error: ${e.message}`;
         Ember.RSVP.reject(this.joinErrorMessage);
@@ -1963,7 +1967,7 @@
     });
   });
 });
-;define("pandemic/routes/game", ["exports"], function (_exports) {
+;define("pandemic/routes/game", ["exports", "pandemic/utils/constants"], function (_exports, _constants) {
   "use strict";
 
   Object.defineProperty(_exports, "__esModule", {
@@ -1979,11 +1983,23 @@
         filter: {
           code
         }
-      }).then(game => {
-        if (game.inProgress) {
+      }).then(game => Ember.RSVP.hash({
+        game,
+        players: game.players
+      })).then(({
+        game,
+        players
+      }) => {
+        if (game.inProgress || players.length === _constants.MAX_PLAYERS) {
           this.replaceWith('index');
         }
 
+        this.currentPlayer = this.store.createRecord('player', {
+          game,
+          name: `Player ${players.length + 1}`,
+          hand: []
+        });
+        this.currentPlayer.save();
         return game;
       });
     }
@@ -2123,8 +2139,8 @@
   _exports.default = void 0;
 
   var _default = Ember.HTMLBars.template({
-    "id": "oQ4NME9E",
-    "block": "{\"symbols\":[],\"statements\":[[10,\"div\"],[14,0,\"text-center mt-3\"],[12],[2,\"\\n  \"],[10,\"h1\"],[12],[2,\"\\n    Stop the Pandemic\\n  \"],[13],[2,\"\\n  \"],[10,\"p\"],[12],[2,\"\\n    Your game code is: \"],[1,[30,[36,1],[[35,0,[\"code\"]]],null]],[2,\"\\n  \"],[13],[2,\"\\n\"],[13]],\"hasEval\":false,\"upvars\":[\"model\",\"uppercase\"]}",
+    "id": "XOl70Ddh",
+    "block": "{\"symbols\":[],\"statements\":[[10,\"div\"],[14,0,\"text-center mt-3\"],[12],[2,\"\\n  \"],[10,\"h1\"],[12],[2,\"\\n    Stop the Pandemic\\n  \"],[13],[2,\"\\n  \"],[10,\"p\"],[12],[2,\"\\n    Your game code is: \"],[1,[30,[36,0],[[32,0,[\"model\",\"code\"]]],null]],[2,\"\\n  \"],[13],[2,\"\\n\"],[13]],\"hasEval\":false,\"upvars\":[\"uppercase\"]}",
     "meta": {
       "moduleName": "pandemic/templates/game.hbs"
     }

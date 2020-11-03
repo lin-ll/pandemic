@@ -33,13 +33,16 @@ export default class IndexController extends Controller {
         if (game.inProgress) {
           this.joinErrorMessage = `Game ${this.joinCode} is already in progress`;
           reject(this.joinErrorMessage);
-        } else if (game.players.length === MAX_PLAYERS) {
+        }
+        return game.players;
+      })
+      .then((players) => {
+        if (players.length === MAX_PLAYERS) {
           this.joinErrorMessage = `Game ${this.joinCode} already has the maximum number of players`;
           reject(this.joinErrorMessage);
-        } else {
-          this.joinErrorMessage = '';
-          this.transitionToRoute('game', this.joinCode);
         }
+        this.joinErrorMessage = '';
+        this.transitionToRoute('game', this.joinCode);
       })
       .catch((e) => {
         this.joinErrorMessage = `Unexpected error: ${e.message}`;
