@@ -1,4 +1,4 @@
-<div class="pandemic-game {{if this.openTeamInfo 'pandemic-game--pushed'}}">
+<div class="pandemic-game {{if this.showDrawer 'pandemic-game--pushed'}}">
   <h1>
     Stop the Pandemic
   </h1>
@@ -16,26 +16,47 @@
     {{/each}}
   </p>
 </div>
-<div class="pandemic-game__team-trigger">
-  <BsButton
-    @onClick={{set this.openTeamInfo (not this.openTeamInfo)}}
-    @type="primary"
-  >
-    {{if this.openTeamInfo 'Close Team Info' 'Open Team Info'}}
-  </BsButton>
+<div class="pandemic-game__drawer-btns">
+  <div class="mb-3">
+    <BsButton
+      @onClick={{this.openTeamInfo}}
+      @type="info"
+      @active={{this.showTeamInfo}}
+      @defaultText="Team Info"
+    />
+    <BsButton
+      @onClick={{this.openGameInfo}}
+      @type="primary"
+      @active={{this.showGameInfo}}
+      @defaultText="Game Info"
+    />
+  </div>
+  {{#if this.showDrawer}}
+    <button
+      type="button"
+      aria-label="Close drawer"
+      class="close-btn rounded-circle"
+      {{on 'click' this.closeDrawer}}
+    ></button>
+  {{/if}}
 </div>
 <div
-  class="pandemic-game__team
-    {{if this.openTeamInfo 'pandemic-game__team--open'}}"
+  class="pandemic-game__drawer
+    {{if this.showDrawer 'pandemic-game__drawer--open'}}
+     bg-light"
 >
   <div class="px-4">
-    {{#each this.model.players as |player|}}
-      <span
-        class="pandemic-game__player
-          {{if player.isTurn 'pandemic-game__player--active'}}"
-      >
-        {{player.name}}
-      </span>
-    {{/each}}
+    {{#if this.showTeamInfo}}
+      {{#each this.model.players as |player|}}
+        <li
+          class="pandemic-game__player
+            {{if player.isTurn 'pandemic-game__player--active'}}"
+        >
+          {{player.name}}
+        </li>
+      {{/each}}
+    {{else if this.showGameInfo}}
+      Game info
+    {{/if}}
   </div>
 </div>

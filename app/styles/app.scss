@@ -1,3 +1,36 @@
 @import 'ember-bootstrap/bootstrap';
 @import './pandemic-start';
 @import './pandemic-game';
+
+$close-btn-dim: 48px;
+
+.close-btn {
+  position: relative;
+  border: none;
+  width: $close-btn-dim;
+  height: $close-btn-dim;
+  opacity: 0.6;
+  background-color: lightgray;
+}
+
+.close-btn:hover {
+  opacity: 1;
+}
+
+.close-btn:before,
+.close-btn:after {
+  position: absolute;
+  top: 8px;
+  content: ' ';
+  height: 33px;
+  width: 2px;
+  background-color: #333;
+}
+
+.close-btn:before {
+  transform: rotate(45deg);
+}
+
+.close-btn:after {
+  transform: rotate(-45deg);
+}

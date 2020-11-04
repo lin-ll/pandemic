@@ -1,55 +1,81 @@
 import Controller from '@ember/controller';
 import { action } from '@ember/object';
-import { reject } from 'rsvp';
+import { all, hash, reject } from 'rsvp';
 import { tracked } from '@glimmer/tracking';
 import { MAX_PLAYERS, NUM_CITIES } from '../utils/constants';
 
 const ALPHABET = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
 
 export default class IndexController extends Controller {
+  /**
+   * @description The join code entered into the form
+   * @type {String}
+   */
   joinCode = '';
 
+  /**
+   * @description Informative message if creating a game results in an error
+   * @type {String}
+   */
+  @tracked createErrorMessage = '';
+
+  /**
+   * @description Informative message if joining a game results in an error
+   * @type {String}
+   */
   @tracked joinErrorMessage = '';
 
+  /**
+   * @description Creates a new game in the DB and initializes game structure
+   * @returns {Promise}
+   */
   @action
   createNewGame() {
     const code = this._generateRandomCode();
-    this.store
+    return this.store
       .queryRecord('game', { filter: { code } })
-      .then(() => {
-        this.createNewGame();
-      })
-      .catch(() => {
-        this._initializeNewGame(code);
-      });
+      .then(() => this.createNewGame())
+      .catch(() => this._initializeNewGame(code));
   }
 
+  /**
+   * @description Joins an existing game in the DB if possible
+   * @returns {Promise}
+   */
   @action
   joinGame() {
-    if (!this.joinCode) return;
-    this.store
+    this.joinErrorMessage = '';
+    if (!this.joinCode) {
+      this.joinErrorMessage = 'Please provide a game code';
+      return reject(this.joinErrorMessage);
+    }
+    return this.store
       .queryRecord('game', { filter: { code: this.joinCode } })
-      .then((game) => {
+      .then((game) => hash({ game, players: game.players }))
+      .then(({ game, players }) => {
         if (game.inProgress) {
           this.joinErrorMessage = `Game ${this.joinCode} is already in progress`;
-          reject(this.joinErrorMessage);
-        }
-        return game.players;
-      })
-      .then((players) => {
-        if (players.length === MAX_PLAYERS) {
+        } else if (players.length >= MAX_PLAYERS) {
           this.joinErrorMessage = `Game ${this.joinCode} already has the maximum number of players`;
-          reject(this.joinErrorMessage);
         }
-        this.joinErrorMessage = '';
-        this.transitionToRoute('game', this.joinCode);
       })
       .catch((e) => {
         this.joinErrorMessage = `Unexpected error: ${e.message}`;
-        reject(this.joinErrorMessage);
+      })
+      .finally(() => {
+        if (this.joinErrorMessage) {
+          return reject(this.joinErrorMessage);
+        }
+        this.transitionToRoute('game', this.joinCode);
       });
   }
 
+  /**
+   * @private
+   * @description Generates a random code for the new game
+   * @param {Number} [length=4] Length of the random code
+   * @returns {String}
+   */
   _generateRandomCode(length = 4) {
     let code = '';
     for (let i = 0; i < length; i++) {
@@ -58,7 +84,15 @@ export default class IndexController extends Controller {
     return code;
   }
 
+  /**
+   * @private
+   * @description Initializes a new game with the given code
+   * @param {String} code
+   * @returns {Promise}
+   */
   _initializeNewGame(code) {
+    this.createErrorMessage = '';
+    const promises = [];
     const newGame = this.store.createRecord('game', {
       code,
       infectionDeck: [1, 2, 3],
@@ -66,16 +100,23 @@ export default class IndexController extends Controller {
       playerDeck: [4, 5, 6],
       playerDiscard: [],
     });
-    newGame.save();
+    promises.push(newGame.save());
 
     for (let i = 0; i < NUM_CITIES; i++) {
       const city = this.store.createRecord('city', {
         cardId: i,
         game: newGame,
       });
-      city.save();
+      promises.push(city.save());
     }
 
-    this.transitionToRoute('game', code);
+    return all(promises)
+      .then(() => {
+        this.transitionToRoute('game', code);
+      })
+      .catch((e) => {
+        this.createErrorMessage = `Unexpected error: ${e.message}`;
+        return reject(this.createErrorMessage);
+      });
   }
 }
