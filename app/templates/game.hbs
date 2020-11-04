@@ -2,10 +2,10 @@
   <h1>
     Stop the Pandemic
   </h1>
-  <p>
+  <p class="mb-2">
     Your game code is:
-    <BsButton @type="light" @size="sm" class="ml-1">
-      {{uppercase this.model.game.code}}
+    <BsButton @type="light" @size="sm" class="ml-1 text-uppercase">
+      {{this.model.game.code}}
       <BsPopover>
         Share this code with your friends so they can join your game!
       </BsPopover>
@@ -15,7 +15,7 @@
     @formLayout="inline"
     @model={{this}}
     @onSubmit={{this.changeName}}
-    class="justify-content-center" as |form|
+    class="justify-content-center mb-2" as |form|
   >
     <form.element
       @controlType="text"
@@ -41,15 +41,32 @@
       {{/if}}
     </form.element>
   </BsForm>
+  {{#if this.model.game.inProgress}}
+
+  {{else}}
+    <BsButton
+      @type="dark"
+      @onClick={{this.startGame}}
+      @defaultText="Start the Game"
+    />
+  {{/if}}
   <p>
-    {{#each model.game.cities as |city|}}
-      cities
+    cities
+    {{#each this.model.game.cities as |city|}}
       <li>
         id is
         {{city.cardId}}
       </li>
     {{/each}}
   </p>
+</div>
+<div class="pandemic-game__role-chooser">
+  <RoleChooser
+    @currentPlayer={{this.model.currentPlayer}}
+    @players={{this.model.game.players}}
+    @inProgress={{this.model.game.inProgress}}
+    @selectItem={{this.changeRole}}
+  />
 </div>
 <div class="pandemic-game__drawer-btns">
   <div class="mb-3">
@@ -82,14 +99,7 @@
 >
   <div class="px-4">
     {{#if this.showTeamInfo}}
-      {{#each this.model.game.players as |player|}}
-        <li
-          class="pandemic-game__player
-            {{if player.isTurn 'pandemic-game__player--active'}}"
-        >
-          {{player.name}}
-        </li>
-      {{/each}}
+      <TeamInfoDisplay @players={{this.model.game.players}} />
     {{else if this.showGameInfo}}
       Game info
     {{/if}}

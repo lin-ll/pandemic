@@ -3,14 +3,15 @@ import { setupRenderingTest } from 'ember-qunit';
 import { render } from '@ember/test-helpers';
 import { hbs } from 'ember-cli-htmlbars';
 
-module('Integration | Helper | uppercase', function (hooks) {
+module('Integration | Helper | get-role-info', function (hooks) {
   setupRenderingTest(hooks);
 
+  // TODO: Replace this with your real tests.
   test('it renders', async function (assert) {
-    this.set('string', 'foobar');
+    this.set('inputValue', '1234');
 
-    await render(hbs`{{uppercase this.string}}`);
+    await render(hbs`{{get-role-info inputValue}}`);
 
-    assert.equal(this.element.textContent.trim(), 'FOOBAR');
+    assert.equal(this.element.textContent.trim(), '1234');
   });
 });

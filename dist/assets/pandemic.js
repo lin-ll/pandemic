@@ -936,6 +936,136 @@
     }
   });
 });
+;define("pandemic/components/fa-icon", ["exports", "@fortawesome/ember-fontawesome/components/fa-icon"], function (_exports, _faIcon) {
+  "use strict";
+
+  Object.defineProperty(_exports, "__esModule", {
+    value: true
+  });
+  Object.defineProperty(_exports, "default", {
+    enumerable: true,
+    get: function () {
+      return _faIcon.default;
+    }
+  });
+});
+;define("pandemic/components/role-chooser", ["exports", "@glimmer/component", "pandemic/utils/constants"], function (_exports, _component, _constants) {
+  "use strict";
+
+  Object.defineProperty(_exports, "__esModule", {
+    value: true
+  });
+  _exports.default = void 0;
+
+  const __COLOCATED_TEMPLATE__ = Ember.HTMLBars.template(
+  /*
+    <BsDropdown as |dropdown|>
+    <dropdown.button @type="warning" disabled={{@inProgress}}>
+      {{#let (get-role-info @currentPlayer.role) as |currentRole|}}
+        {{if currentRole currentRole.name 'Choose a Role'}}
+      {{/let}}
+      <span class="caret"></span>
+      <BsTooltip
+        @title="If unselected, you'll be randomly assigned a role when the game starts."
+        @placement="right"
+      />
+    </dropdown.button>
+    <dropdown.menu as |menu|>
+      {{#each this.availableRoles as |role|}}
+        <menu.item>
+          <button
+            type="button"
+            class="dropdown-item"
+            {{on 'click' (fn @selectItem role.id)}}
+          >
+            {{role.name}}
+          </button>
+        </menu.item>
+      {{else}}
+        <menu.item>
+          <button type="button" class="dropdown-item" disabled>
+            No available roles
+          </button>
+        </menu.item>
+      {{/each}}
+    </dropdown.menu>
+  </BsDropdown>
+  */
+  {"id":"QefgBS/H","block":"{\"symbols\":[\"dropdown\",\"menu\",\"role\",\"currentRole\",\"@selectItem\",\"@inProgress\",\"@currentPlayer\"],\"statements\":[[8,\"bs-dropdown\",[],[[],[]],[[\"default\"],[{\"statements\":[[2,\"\\n  \"],[8,[32,1,[\"button\"]],[[16,\"disabled\",[32,6]]],[[\"@type\"],[\"warning\"]],[[\"default\"],[{\"statements\":[[2,\"\\n\"],[6,[37,4],[[30,[36,3],[[32,7,[\"role\"]]],null]],null,[[\"default\"],[{\"statements\":[[2,\"      \"],[1,[30,[36,2],[[32,4],[32,4,[\"name\"]],\"Choose a Role\"],null]],[2,\"\\n\"]],\"parameters\":[4]}]]],[2,\"    \"],[10,\"span\"],[14,0,\"caret\"],[12],[13],[2,\"\\n    \"],[8,\"bs-tooltip\",[],[[\"@title\",\"@placement\"],[\"If unselected, you'll be randomly assigned a role when the game starts.\",\"right\"]],null],[2,\"\\n  \"]],\"parameters\":[]}]]],[2,\"\\n  \"],[8,[32,1,[\"menu\"]],[],[[],[]],[[\"default\"],[{\"statements\":[[2,\"\\n\"],[6,[37,6],[[30,[36,5],[[30,[36,5],[[32,0,[\"availableRoles\"]]],null]],null]],null,[[\"default\",\"else\"],[{\"statements\":[[2,\"      \"],[8,[32,2,[\"item\"]],[],[[],[]],[[\"default\"],[{\"statements\":[[2,\"\\n        \"],[11,\"button\"],[24,0,\"dropdown-item\"],[24,4,\"button\"],[4,[38,1],[\"click\",[30,[36,0],[[32,5],[32,3,[\"id\"]]],null]],null],[12],[2,\"\\n          \"],[1,[32,3,[\"name\"]]],[2,\"\\n        \"],[13],[2,\"\\n      \"]],\"parameters\":[]}]]],[2,\"\\n\"]],\"parameters\":[3]},{\"statements\":[[2,\"      \"],[8,[32,2,[\"item\"]],[],[[],[]],[[\"default\"],[{\"statements\":[[2,\"\\n        \"],[10,\"button\"],[14,0,\"dropdown-item\"],[14,\"disabled\",\"\"],[14,4,\"button\"],[12],[2,\"\\n          No available roles\\n        \"],[13],[2,\"\\n      \"]],\"parameters\":[]}]]],[2,\"\\n\"]],\"parameters\":[]}]]],[2,\"  \"]],\"parameters\":[2]}]]],[2,\"\\n\"]],\"parameters\":[1]}]]]],\"hasEval\":false,\"upvars\":[\"fn\",\"on\",\"if\",\"get-role-info\",\"let\",\"-track-array\",\"each\"]}","meta":{"moduleName":"pandemic/components/role-chooser.hbs"}});
+
+  /**
+   * @class RoleChooser
+   * @extends Glimmer.Component
+   */
+  class RoleChooser extends _component.default {
+    get availableRoles() {
+      const usedRoles = this.args.players.map(player => player.role);
+      return [..._constants.ROLES].filter(role => !usedRoles.includes(role.id));
+    }
+
+    constructor() {
+      super(...arguments);
+    }
+
+  }
+
+  _exports.default = RoleChooser;
+
+  Ember._setComponentTemplate(__COLOCATED_TEMPLATE__, RoleChooser);
+});
+;define("pandemic/components/team-info-display", ["exports"], function (_exports) {
+  "use strict";
+
+  Object.defineProperty(_exports, "__esModule", {
+    value: true
+  });
+  _exports.default = void 0;
+
+  const __COLOCATED_TEMPLATE__ = Ember.HTMLBars.template(
+  /*
+    <BsAccordion as |acc|>
+    {{#each @players as |player|}}
+      {{#let (get-role-info player.role) as |role|}}
+        <acc.item as |aitem|>
+          <aitem.title class="team-info-display__name">
+            <span>
+              {{player.name}}
+            </span>
+            {{#if player.isTurn}}
+              <FaIcon @icon="star" class="turn-indicator text-success" />
+              <BsTooltip
+                @title="It is this player's turn!"
+                @triggerElement=".turn-indicator"
+                @placement="right"
+              />
+            {{/if}}
+            <br />
+            <span class="small text-secondary">
+              {{role.name}}
+            </span>
+          </aitem.title>
+          <aitem.body>
+            {{#if role}}
+              <p>
+                <b>Role Description:</b>
+                {{role.description}}
+              </p>
+            {{/if}}
+            <p>
+                <b>Hand:</b>
+              </p>
+          </aitem.body>
+        </acc.item>
+      {{/let}}
+    {{/each}}
+  </BsAccordion>
+  */
+  {"id":"leG4kjSi","block":"{\"symbols\":[\"acc\",\"player\",\"role\",\"aitem\",\"@players\"],\"statements\":[[8,\"bs-accordion\",[],[[],[]],[[\"default\"],[{\"statements\":[[2,\"\\n\"],[6,[37,4],[[30,[36,3],[[30,[36,3],[[32,5]],null]],null]],null,[[\"default\"],[{\"statements\":[[6,[37,2],[[30,[36,1],[[32,2,[\"role\"]]],null]],null,[[\"default\"],[{\"statements\":[[2,\"      \"],[8,[32,1,[\"item\"]],[],[[],[]],[[\"default\"],[{\"statements\":[[2,\"\\n        \"],[8,[32,4,[\"title\"]],[[24,0,\"team-info-display__name\"]],[[],[]],[[\"default\"],[{\"statements\":[[2,\"\\n          \"],[10,\"span\"],[12],[2,\"\\n            \"],[1,[32,2,[\"name\"]]],[2,\"\\n          \"],[13],[2,\"\\n\"],[6,[37,0],[[32,2,[\"isTurn\"]]],null,[[\"default\"],[{\"statements\":[[2,\"            \"],[8,\"fa-icon\",[[24,0,\"turn-indicator text-success\"]],[[\"@icon\"],[\"star\"]],null],[2,\"\\n            \"],[8,\"bs-tooltip\",[],[[\"@title\",\"@triggerElement\",\"@placement\"],[\"It is this player's turn!\",\".turn-indicator\",\"right\"]],null],[2,\"\\n\"]],\"parameters\":[]}]]],[2,\"          \"],[10,\"br\"],[12],[13],[2,\"\\n          \"],[10,\"span\"],[14,0,\"small text-secondary\"],[12],[2,\"\\n            \"],[1,[32,3,[\"name\"]]],[2,\"\\n          \"],[13],[2,\"\\n        \"]],\"parameters\":[]}]]],[2,\"\\n        \"],[8,[32,4,[\"body\"]],[],[[],[]],[[\"default\"],[{\"statements\":[[2,\"\\n\"],[6,[37,0],[[32,3]],null,[[\"default\"],[{\"statements\":[[2,\"            \"],[10,\"p\"],[12],[2,\"\\n              \"],[10,\"b\"],[12],[2,\"Role Description:\"],[13],[2,\"\\n              \"],[1,[32,3,[\"description\"]]],[2,\"\\n            \"],[13],[2,\"\\n\"]],\"parameters\":[]}]]],[2,\"          \"],[10,\"p\"],[12],[2,\"\\n              \"],[10,\"b\"],[12],[2,\"Hand:\"],[13],[2,\"\\n            \"],[13],[2,\"\\n        \"]],\"parameters\":[]}]]],[2,\"\\n      \"]],\"parameters\":[4]}]]],[2,\"\\n\"]],\"parameters\":[3]}]]]],\"parameters\":[2]}]]]],\"parameters\":[1]}]]]],\"hasEval\":false,\"upvars\":[\"if\",\"get-role-info\",\"let\",\"-track-array\",\"each\"]}","meta":{"moduleName":"pandemic/components/team-info-display.hbs"}});
+
+  var _default = Ember._setComponentTemplate(__COLOCATED_TEMPLATE__, Ember._templateOnlyComponent());
+
+  _exports.default = _default;
+});
 ;define("pandemic/components/welcome-page", ["exports", "ember-welcome-page/components/welcome-page"], function (_exports, _welcomePage) {
   "use strict";
 
@@ -957,8 +1087,97 @@
   });
   _exports.default = void 0;
 
-  class GameController extends Ember.Controller {}
+  var _dec, _dec2, _dec3, _dec4, _dec5, _dec6, _dec7, _dec8, _class, _descriptor, _descriptor2, _temp;
 
+  function _initializerDefineProperty(target, property, descriptor, context) { if (!descriptor) return; Object.defineProperty(target, property, { enumerable: descriptor.enumerable, configurable: descriptor.configurable, writable: descriptor.writable, value: descriptor.initializer ? descriptor.initializer.call(context) : void 0 }); }
+
+  function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+  function _applyDecoratedDescriptor(target, property, decorators, descriptor, context) { var desc = {}; Object.keys(descriptor).forEach(function (key) { desc[key] = descriptor[key]; }); desc.enumerable = !!desc.enumerable; desc.configurable = !!desc.configurable; if ('value' in desc || desc.initializer) { desc.writable = true; } desc = decorators.slice().reverse().reduce(function (desc, decorator) { return decorator(target, property, desc) || desc; }, desc); if (context && desc.initializer !== void 0) { desc.value = desc.initializer ? desc.initializer.call(context) : void 0; desc.initializer = undefined; } if (desc.initializer === void 0) { Object.defineProperty(target, property, desc); desc = null; } return desc; }
+
+  function _initializerWarningHelper(descriptor, context) { throw new Error('Decorating class property failed. Please ensure that ' + 'proposal-class-properties is enabled and runs after the decorators transform.'); }
+
+  let GameController = (_dec = Ember._tracked, _dec2 = Ember._tracked, _dec3 = Ember._action, _dec4 = Ember._action, _dec5 = Ember._action, _dec6 = Ember._action, _dec7 = Ember._action, _dec8 = Ember._action, (_class = (_temp = class GameController extends Ember.Controller {
+    constructor(...args) {
+      super(...args);
+
+      _defineProperty(this, "currentPlayerName", void 0);
+
+      _initializerDefineProperty(this, "showGameInfo", _descriptor, this);
+
+      _initializerDefineProperty(this, "showTeamInfo", _descriptor2, this);
+    }
+
+    /**
+     * @description Whether or not the show the drawer
+     * @type {Boolean}
+     */
+    get showDrawer() {
+      return this.showGameInfo || this.showTeamInfo;
+    }
+
+    changeName() {
+      if (this.currentPlayerName !== this.model.currentPlayer.name) {
+        this.model.currentPlayer.name = this.currentPlayerName;
+        return this.model.currentPlayer.save();
+      }
+    }
+
+    changeRole(role) {
+      if (role !== this.model.currentPlayer.role && !this.model.game.inProgress) {
+        this.model.currentPlayer.role = role;
+        return this.model.currentPlayer.save();
+      }
+    }
+
+    startGame() {
+      // TODO: Game setup
+      this.model.game.inProgress = true;
+      return this.model.game.save();
+    }
+    /**
+     * @description Show game info in the drawer
+     */
+
+
+    openGameInfo() {
+      this.showGameInfo = true;
+      this.showTeamInfo = false;
+    }
+    /**
+     * @description Show team info in the drawer
+     */
+
+
+    openTeamInfo() {
+      this.showTeamInfo = true;
+      this.showGameInfo = false;
+    }
+    /**
+     * @description Close the drawer
+     */
+
+
+    closeDrawer() {
+      this.showGameInfo = false;
+      this.showTeamInfo = false;
+    }
+
+  }, _temp), (_descriptor = _applyDecoratedDescriptor(_class.prototype, "showGameInfo", [_dec], {
+    configurable: true,
+    enumerable: true,
+    writable: true,
+    initializer: function () {
+      return false;
+    }
+  }), _descriptor2 = _applyDecoratedDescriptor(_class.prototype, "showTeamInfo", [_dec2], {
+    configurable: true,
+    enumerable: true,
+    writable: true,
+    initializer: function () {
+      return false;
+    }
+  }), _applyDecoratedDescriptor(_class.prototype, "changeName", [_dec3], Object.getOwnPropertyDescriptor(_class.prototype, "changeName"), _class.prototype), _applyDecoratedDescriptor(_class.prototype, "changeRole", [_dec4], Object.getOwnPropertyDescriptor(_class.prototype, "changeRole"), _class.prototype), _applyDecoratedDescriptor(_class.prototype, "startGame", [_dec5], Object.getOwnPropertyDescriptor(_class.prototype, "startGame"), _class.prototype), _applyDecoratedDescriptor(_class.prototype, "openGameInfo", [_dec6], Object.getOwnPropertyDescriptor(_class.prototype, "openGameInfo"), _class.prototype), _applyDecoratedDescriptor(_class.prototype, "openTeamInfo", [_dec7], Object.getOwnPropertyDescriptor(_class.prototype, "openTeamInfo"), _class.prototype), _applyDecoratedDescriptor(_class.prototype, "closeDrawer", [_dec8], Object.getOwnPropertyDescriptor(_class.prototype, "closeDrawer"), _class.prototype)), _class));
   _exports.default = GameController;
 });
 ;define("pandemic/controllers/index", ["exports", "pandemic/utils/constants"], function (_exports, _constants) {
@@ -969,7 +1188,7 @@
   });
   _exports.default = void 0;
 
-  var _dec, _dec2, _dec3, _class, _descriptor, _temp;
+  var _dec, _dec2, _dec3, _dec4, _class, _descriptor, _descriptor2, _temp;
 
   function _initializerDefineProperty(target, property, descriptor, context) { if (!descriptor) return; Object.defineProperty(target, property, { enumerable: descriptor.enumerable, configurable: descriptor.configurable, writable: descriptor.writable, value: descriptor.initializer ? descriptor.initializer.call(context) : void 0 }); }
 
@@ -980,55 +1199,77 @@
   function _initializerWarningHelper(descriptor, context) { throw new Error('Decorating class property failed. Please ensure that ' + 'proposal-class-properties is enabled and runs after the decorators transform.'); }
 
   const ALPHABET = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
-  let IndexController = (_dec = Ember._tracked, _dec2 = Ember._action, _dec3 = Ember._action, (_class = (_temp = class IndexController extends Ember.Controller {
+  let IndexController = (_dec = Ember._tracked, _dec2 = Ember._tracked, _dec3 = Ember._action, _dec4 = Ember._action, (_class = (_temp = class IndexController extends Ember.Controller {
     constructor(...args) {
       super(...args);
 
       _defineProperty(this, "joinCode", '');
 
-      _initializerDefineProperty(this, "joinErrorMessage", _descriptor, this);
+      _initializerDefineProperty(this, "createErrorMessage", _descriptor, this);
+
+      _initializerDefineProperty(this, "joinErrorMessage", _descriptor2, this);
     }
 
+    /**
+     * @description Creates a new game in the DB and initializes game structure
+     * @returns {Promise}
+     */
     createNewGame() {
       const code = this._generateRandomCode();
 
-      this.store.queryRecord('game', {
+      return this.store.queryRecord('game', {
         filter: {
           code
         }
-      }).then(() => {
-        this.createNewGame();
-      }).catch(() => {
-        this._initializeNewGame(code);
-      });
+      }).then(() => this.createNewGame()).catch(() => this._initializeNewGame(code));
     }
+    /**
+     * @description Joins an existing game in the DB if possible
+     * @returns {Promise}
+     */
+
 
     joinGame() {
-      if (!this.joinCode) return;
-      this.store.queryRecord('game', {
+      this.joinErrorMessage = '';
+
+      if (!this.joinCode) {
+        this.joinErrorMessage = 'Please provide a game code';
+        return Ember.RSVP.reject(this.joinErrorMessage);
+      }
+
+      return this.store.queryRecord('game', {
         filter: {
           code: this.joinCode
         }
-      }).then(game => {
+      }).then(game => Ember.RSVP.hash({
+        game,
+        players: game.players
+      })).then(({
+        game,
+        players
+      }) => {
         if (game.inProgress) {
           this.joinErrorMessage = `Game ${this.joinCode} is already in progress`;
-          Ember.RSVP.reject(this.joinErrorMessage);
-        }
-
-        return game.players;
-      }).then(players => {
-        if (players.length === _constants.MAX_PLAYERS) {
+        } else if (players.length >= _constants.MAX_PLAYERS) {
           this.joinErrorMessage = `Game ${this.joinCode} already has the maximum number of players`;
-          Ember.RSVP.reject(this.joinErrorMessage);
         }
-
-        this.joinErrorMessage = '';
-        this.transitionToRoute('game', this.joinCode);
       }).catch(e => {
         this.joinErrorMessage = `Unexpected error: ${e.message}`;
-        Ember.RSVP.reject(this.joinErrorMessage);
+      }).finally(() => {
+        if (this.joinErrorMessage) {
+          return Ember.RSVP.reject(this.joinErrorMessage);
+        }
+
+        this.transitionToRoute('game', this.joinCode);
       });
     }
+    /**
+     * @private
+     * @description Generates a random code for the new game
+     * @param {Number} [length=4] Length of the random code
+     * @returns {String}
+     */
+
 
     _generateRandomCode(length = 4) {
       let code = '';
@@ -1039,20 +1280,57 @@
 
       return code;
     }
+    /**
+     * @private
+     * @description Initializes a new game with the given code
+     * @param {String} code
+     * @returns {Promise}
+     */
+
 
     _initializeNewGame(code) {
-      debugger;
-      this.transitionToRoute('game', code);
+      this.createErrorMessage = '';
+      const promises = [];
+      const newGame = this.store.createRecord('game', {
+        code,
+        infectionDeck: [1, 2, 3],
+        infectionDiscard: [],
+        playerDeck: [4, 5, 6],
+        playerDiscard: []
+      });
+      promises.push(newGame.save());
+
+      for (let i = 0; i < _constants.NUM_CITIES; i++) {
+        const city = this.store.createRecord('city', {
+          cardId: i,
+          game: newGame
+        });
+        promises.push(city.save());
+      }
+
+      return Ember.RSVP.all(promises).then(() => {
+        this.transitionToRoute('game', code);
+      }).catch(e => {
+        this.createErrorMessage = `Unexpected error: ${e.message}`;
+        return Ember.RSVP.reject(this.createErrorMessage);
+      });
     }
 
-  }, _temp), (_descriptor = _applyDecoratedDescriptor(_class.prototype, "joinErrorMessage", [_dec], {
+  }, _temp), (_descriptor = _applyDecoratedDescriptor(_class.prototype, "createErrorMessage", [_dec], {
     configurable: true,
     enumerable: true,
     writable: true,
     initializer: function () {
       return '';
     }
-  }), _applyDecoratedDescriptor(_class.prototype, "createNewGame", [_dec2], Object.getOwnPropertyDescriptor(_class.prototype, "createNewGame"), _class.prototype), _applyDecoratedDescriptor(_class.prototype, "joinGame", [_dec3], Object.getOwnPropertyDescriptor(_class.prototype, "joinGame"), _class.prototype)), _class));
+  }), _descriptor2 = _applyDecoratedDescriptor(_class.prototype, "joinErrorMessage", [_dec2], {
+    configurable: true,
+    enumerable: true,
+    writable: true,
+    initializer: function () {
+      return '';
+    }
+  }), _applyDecoratedDescriptor(_class.prototype, "createNewGame", [_dec3], Object.getOwnPropertyDescriptor(_class.prototype, "createNewGame"), _class.prototype), _applyDecoratedDescriptor(_class.prototype, "joinGame", [_dec4], Object.getOwnPropertyDescriptor(_class.prototype, "joinGame"), _class.prototype)), _class));
   _exports.default = IndexController;
 });
 ;define("pandemic/data-adapter", ["exports", "@ember-data/debug"], function (_exports, _debug) {
@@ -1078,6 +1356,25 @@
     enumerable: true,
     get: function () {
       return _element.default;
+    }
+  });
+});
+;define("pandemic/helpers/and", ["exports", "ember-truth-helpers/helpers/and"], function (_exports, _and) {
+  "use strict";
+
+  Object.defineProperty(_exports, "__esModule", {
+    value: true
+  });
+  Object.defineProperty(_exports, "default", {
+    enumerable: true,
+    get: function () {
+      return _and.default;
+    }
+  });
+  Object.defineProperty(_exports, "and", {
+    enumerable: true,
+    get: function () {
+      return _and.and;
     }
   });
 });
@@ -1217,6 +1514,204 @@
     }
   });
 });
+;define("pandemic/helpers/eq", ["exports", "ember-truth-helpers/helpers/equal"], function (_exports, _equal) {
+  "use strict";
+
+  Object.defineProperty(_exports, "__esModule", {
+    value: true
+  });
+  Object.defineProperty(_exports, "default", {
+    enumerable: true,
+    get: function () {
+      return _equal.default;
+    }
+  });
+  Object.defineProperty(_exports, "equal", {
+    enumerable: true,
+    get: function () {
+      return _equal.equal;
+    }
+  });
+});
+;define("pandemic/helpers/get-role-info", ["exports", "pandemic/utils/constants"], function (_exports, _constants) {
+  "use strict";
+
+  Object.defineProperty(_exports, "__esModule", {
+    value: true
+  });
+  _exports.default = void 0;
+
+  var _default = Ember.Helper.helper(function getRoleInfo([roleId]) {
+    return [..._constants.ROLES].find(role => role.id === roleId);
+  });
+
+  _exports.default = _default;
+});
+;define("pandemic/helpers/gt", ["exports", "ember-truth-helpers/helpers/gt"], function (_exports, _gt) {
+  "use strict";
+
+  Object.defineProperty(_exports, "__esModule", {
+    value: true
+  });
+  Object.defineProperty(_exports, "default", {
+    enumerable: true,
+    get: function () {
+      return _gt.default;
+    }
+  });
+  Object.defineProperty(_exports, "gt", {
+    enumerable: true,
+    get: function () {
+      return _gt.gt;
+    }
+  });
+});
+;define("pandemic/helpers/gte", ["exports", "ember-truth-helpers/helpers/gte"], function (_exports, _gte) {
+  "use strict";
+
+  Object.defineProperty(_exports, "__esModule", {
+    value: true
+  });
+  Object.defineProperty(_exports, "default", {
+    enumerable: true,
+    get: function () {
+      return _gte.default;
+    }
+  });
+  Object.defineProperty(_exports, "gte", {
+    enumerable: true,
+    get: function () {
+      return _gte.gte;
+    }
+  });
+});
+;define("pandemic/helpers/is-array", ["exports", "ember-truth-helpers/helpers/is-array"], function (_exports, _isArray) {
+  "use strict";
+
+  Object.defineProperty(_exports, "__esModule", {
+    value: true
+  });
+  Object.defineProperty(_exports, "default", {
+    enumerable: true,
+    get: function () {
+      return _isArray.default;
+    }
+  });
+  Object.defineProperty(_exports, "isArray", {
+    enumerable: true,
+    get: function () {
+      return _isArray.isArray;
+    }
+  });
+});
+;define("pandemic/helpers/is-empty", ["exports", "ember-truth-helpers/helpers/is-empty"], function (_exports, _isEmpty) {
+  "use strict";
+
+  Object.defineProperty(_exports, "__esModule", {
+    value: true
+  });
+  Object.defineProperty(_exports, "default", {
+    enumerable: true,
+    get: function () {
+      return _isEmpty.default;
+    }
+  });
+});
+;define("pandemic/helpers/is-equal", ["exports", "ember-truth-helpers/helpers/is-equal"], function (_exports, _isEqual) {
+  "use strict";
+
+  Object.defineProperty(_exports, "__esModule", {
+    value: true
+  });
+  Object.defineProperty(_exports, "default", {
+    enumerable: true,
+    get: function () {
+      return _isEqual.default;
+    }
+  });
+  Object.defineProperty(_exports, "isEqual", {
+    enumerable: true,
+    get: function () {
+      return _isEqual.isEqual;
+    }
+  });
+});
+;define("pandemic/helpers/lt", ["exports", "ember-truth-helpers/helpers/lt"], function (_exports, _lt) {
+  "use strict";
+
+  Object.defineProperty(_exports, "__esModule", {
+    value: true
+  });
+  Object.defineProperty(_exports, "default", {
+    enumerable: true,
+    get: function () {
+      return _lt.default;
+    }
+  });
+  Object.defineProperty(_exports, "lt", {
+    enumerable: true,
+    get: function () {
+      return _lt.lt;
+    }
+  });
+});
+;define("pandemic/helpers/lte", ["exports", "ember-truth-helpers/helpers/lte"], function (_exports, _lte) {
+  "use strict";
+
+  Object.defineProperty(_exports, "__esModule", {
+    value: true
+  });
+  Object.defineProperty(_exports, "default", {
+    enumerable: true,
+    get: function () {
+      return _lte.default;
+    }
+  });
+  Object.defineProperty(_exports, "lte", {
+    enumerable: true,
+    get: function () {
+      return _lte.lte;
+    }
+  });
+});
+;define("pandemic/helpers/not-eq", ["exports", "ember-truth-helpers/helpers/not-equal"], function (_exports, _notEqual) {
+  "use strict";
+
+  Object.defineProperty(_exports, "__esModule", {
+    value: true
+  });
+  Object.defineProperty(_exports, "default", {
+    enumerable: true,
+    get: function () {
+      return _notEqual.default;
+    }
+  });
+  Object.defineProperty(_exports, "notEqualHelper", {
+    enumerable: true,
+    get: function () {
+      return _notEqual.notEqualHelper;
+    }
+  });
+});
+;define("pandemic/helpers/not", ["exports", "ember-truth-helpers/helpers/not"], function (_exports, _not) {
+  "use strict";
+
+  Object.defineProperty(_exports, "__esModule", {
+    value: true
+  });
+  Object.defineProperty(_exports, "default", {
+    enumerable: true,
+    get: function () {
+      return _not.default;
+    }
+  });
+  Object.defineProperty(_exports, "not", {
+    enumerable: true,
+    get: function () {
+      return _not.not;
+    }
+  });
+});
 ;define("pandemic/helpers/on-document", ["exports", "ember-on-helper/helpers/on-document"], function (_exports, _onDocument) {
   "use strict";
 
@@ -1253,6 +1748,25 @@
     enumerable: true,
     get: function () {
       return _on.default;
+    }
+  });
+});
+;define("pandemic/helpers/or", ["exports", "ember-truth-helpers/helpers/or"], function (_exports, _or) {
+  "use strict";
+
+  Object.defineProperty(_exports, "__esModule", {
+    value: true
+  });
+  Object.defineProperty(_exports, "default", {
+    enumerable: true,
+    get: function () {
+      return _or.default;
+    }
+  });
+  Object.defineProperty(_exports, "or", {
+    enumerable: true,
+    get: function () {
+      return _or.or;
     }
   });
 });
@@ -1334,19 +1848,24 @@
     }
   });
 });
-;define("pandemic/helpers/uppercase", ["exports"], function (_exports) {
+;define("pandemic/helpers/xor", ["exports", "ember-truth-helpers/helpers/xor"], function (_exports, _xor) {
   "use strict";
 
   Object.defineProperty(_exports, "__esModule", {
     value: true
   });
-  _exports.default = void 0;
-
-  var _default = Ember.Helper.helper(function uppercase([s]) {
-    return s.toUpperCase();
+  Object.defineProperty(_exports, "default", {
+    enumerable: true,
+    get: function () {
+      return _xor.default;
+    }
   });
-
-  _exports.default = _default;
+  Object.defineProperty(_exports, "xor", {
+    enumerable: true,
+    get: function () {
+      return _xor.xor;
+    }
+  });
 });
 ;define("pandemic/index", [], function () {
   "use strict";
@@ -1806,7 +2325,7 @@
   });
   _exports.default = void 0;
 
-  var _dec, _dec2, _dec3, _dec4, _class, _descriptor, _descriptor2, _descriptor3, _descriptor4, _temp;
+  var _dec, _dec2, _dec3, _dec4, _dec5, _class, _descriptor, _descriptor2, _descriptor3, _descriptor4, _descriptor5, _temp;
 
   function _initializerDefineProperty(target, property, descriptor, context) { if (!descriptor) return; Object.defineProperty(target, property, { enumerable: descriptor.enumerable, configurable: descriptor.configurable, writable: descriptor.writable, value: descriptor.initializer ? descriptor.initializer.call(context) : void 0 }); }
 
@@ -1817,7 +2336,9 @@
   function _initializerWarningHelper(descriptor, context) { throw new Error('Decorating class property failed. Please ensure that ' + 'proposal-class-properties is enabled and runs after the decorators transform.'); }
 
   const HAND_LIMIT = 7;
-  let PlayerModel = (_dec = (0, _model.belongsTo)('game'), _dec2 = (0, _model.attr)('string'), _dec3 = (0, _model.attr)('number'), _dec4 = (0, _model.attr)('numberArray'), (_class = (_temp = class PlayerModel extends _model.default {
+  let PlayerModel = (_dec = (0, _model.belongsTo)('game'), _dec2 = (0, _model.attr)('string'), _dec3 = (0, _model.attr)('number'), _dec4 = (0, _model.attr)('numberArray'), _dec5 = (0, _model.attr)('boolean', {
+    defaultValue: false
+  }), (_class = (_temp = class PlayerModel extends _model.default {
     constructor(...args) {
       super(...args);
 
@@ -1828,6 +2349,8 @@
       _initializerDefineProperty(this, "role", _descriptor3, this);
 
       _initializerDefineProperty(this, "hand", _descriptor4, this);
+
+      _initializerDefineProperty(this, "isTurn", _descriptor5, this);
     }
 
     // Player needs to discard / use cards if over the hand limit
@@ -1851,6 +2374,11 @@
     writable: true,
     initializer: null
   }), _descriptor4 = _applyDecoratedDescriptor(_class.prototype, "hand", [_dec4], {
+    configurable: true,
+    enumerable: true,
+    writable: true,
+    initializer: null
+  }), _descriptor5 = _applyDecoratedDescriptor(_class.prototype, "isTurn", [_dec5], {
     configurable: true,
     enumerable: true,
     writable: true,
@@ -1990,17 +2518,18 @@
         game,
         players
       }) => {
-        if (game.inProgress || players.length === _constants.MAX_PLAYERS) {
-          this.replaceWith('index');
-        }
-
-        this.currentPlayer = this.store.createRecord('player', {
+        // if (game.inProgress || players.length >= MAX_PLAYERS) {
+        //   this.replaceWith('index');
+        // }
+        const currentPlayer = this.store.createRecord('player', {
           game,
           name: `Player ${players.length + 1}`,
           hand: []
         });
-        this.currentPlayer.save();
-        return game;
+        return Ember.RSVP.hash({
+          game,
+          currentPlayer: currentPlayer.save()
+        });
       });
     }
 
@@ -2139,8 +2668,8 @@
   _exports.default = void 0;
 
   var _default = Ember.HTMLBars.template({
-    "id": "XOl70Ddh",
-    "block": "{\"symbols\":[],\"statements\":[[10,\"div\"],[14,0,\"text-center mt-3\"],[12],[2,\"\\n  \"],[10,\"h1\"],[12],[2,\"\\n    Stop the Pandemic\\n  \"],[13],[2,\"\\n  \"],[10,\"p\"],[12],[2,\"\\n    Your game code is: \"],[1,[30,[36,0],[[32,0,[\"model\",\"code\"]]],null]],[2,\"\\n  \"],[13],[2,\"\\n\"],[13]],\"hasEval\":false,\"upvars\":[\"uppercase\"]}",
+    "id": "b0SFkZtN",
+    "block": "{\"symbols\":[\"city\",\"form\",\"el\"],\"statements\":[[10,\"div\"],[15,0,[31,[\"pandemic-game \",[30,[36,0],[[32,0,[\"showDrawer\"]],\"pandemic-game--pushed\"],null]]]],[12],[2,\"\\n  \"],[10,\"h1\"],[12],[2,\"\\n    Stop the Pandemic\\n  \"],[13],[2,\"\\n  \"],[10,\"p\"],[14,0,\"mb-2\"],[12],[2,\"\\n    Your game code is:\\n    \"],[8,\"bs-button\",[[24,0,\"ml-1 text-uppercase\"]],[[\"@type\",\"@size\"],[\"light\",\"sm\"]],[[\"default\"],[{\"statements\":[[2,\"\\n      \"],[1,[32,0,[\"model\",\"game\",\"code\"]]],[2,\"\\n      \"],[8,\"bs-popover\",[],[[],[]],[[\"default\"],[{\"statements\":[[2,\"\\n        Share this code with your friends so they can join your game!\\n      \"]],\"parameters\":[]}]]],[2,\"\\n    \"]],\"parameters\":[]}]]],[2,\"\\n  \"],[13],[2,\"\\n  \"],[8,\"bs-form\",[[24,0,\"justify-content-center mb-2\"]],[[\"@formLayout\",\"@model\",\"@onSubmit\"],[\"inline\",[32,0],[32,0,[\"changeName\"]]]],[[\"default\"],[{\"statements\":[[2,\"\\n    \"],[8,[32,2,[\"element\"]],[[24,0,\"flex-nowrap ml-2\"]],[[\"@controlType\",\"@property\",\"@label\"],[\"text\",\"currentPlayerName\",\"Your name is:\"]],[[\"default\"],[{\"statements\":[[2,\"\\n      \"],[8,[32,3,[\"control\"]],[[24,0,\"ml-2 pr-5\"],[16,2,[32,0,[\"model\",\"currentPlayer\",\"name\"]]],[4,[38,1],[\"focusout\",[32,2,[\"submit\"]]],null]],[[],[]],null],[2,\"\\n\"],[6,[37,0],[[32,2,[\"isSubmitting\"]]],null,[[\"default\",\"else\"],[{\"statements\":[[2,\"        \"],[10,\"div\"],[14,0,\"spinner-grow spinner-grow-sm text-success ml-n4\"],[12],[13],[2,\"\\n\"]],\"parameters\":[]},{\"statements\":[[6,[37,0],[[32,2,[\"isSubmitted\"]]],null,[[\"default\",\"else\"],[{\"statements\":[[2,\"        \"],[8,\"fa-icon\",[[24,0,\"text-success ml-n4\"]],[[\"@icon\"],[\"check\"]],null],[2,\"\\n\"]],\"parameters\":[]},{\"statements\":[[6,[37,0],[[32,2,[\"isRejected\"]]],null,[[\"default\"],[{\"statements\":[[2,\"        \"],[8,\"fa-icon\",[[24,0,\"change-name-error text-danger ml-n4\"]],[[\"@icon\"],[\"times\"]],null],[2,\"\\n        \"],[8,\"bs-tooltip\",[],[[\"@title\",\"@triggerElement\"],[\"We encountered an error saving this info. Please try again.\",\".change-name-error\"]],null],[2,\"\\n      \"]],\"parameters\":[]}]]]],\"parameters\":[]}]]]],\"parameters\":[]}]]],[2,\"    \"]],\"parameters\":[3]}]]],[2,\"\\n  \"]],\"parameters\":[2]}]]],[2,\"\\n\"],[6,[37,0],[[32,0,[\"model\",\"game\",\"inProgress\"]]],null,[[\"default\",\"else\"],[{\"statements\":[[2,\"\\n\"]],\"parameters\":[]},{\"statements\":[[2,\"    \"],[8,\"bs-button\",[],[[\"@type\",\"@onClick\",\"@defaultText\"],[\"dark\",[32,0,[\"startGame\"]],\"Start the Game\"]],null],[2,\"\\n\"]],\"parameters\":[]}]]],[2,\"  \"],[10,\"p\"],[12],[2,\"\\n    cities\\n\"],[6,[37,3],[[30,[36,2],[[30,[36,2],[[32,0,[\"model\",\"game\",\"cities\"]]],null]],null]],null,[[\"default\"],[{\"statements\":[[2,\"      \"],[10,\"li\"],[12],[2,\"\\n        id is\\n        \"],[1,[32,1,[\"cardId\"]]],[2,\"\\n      \"],[13],[2,\"\\n\"]],\"parameters\":[1]}]]],[2,\"  \"],[13],[2,\"\\n\"],[13],[2,\"\\n\"],[10,\"div\"],[14,0,\"pandemic-game__role-chooser\"],[12],[2,\"\\n  \"],[8,\"role-chooser\",[],[[\"@currentPlayer\",\"@players\",\"@inProgress\",\"@selectItem\"],[[32,0,[\"model\",\"currentPlayer\"]],[32,0,[\"model\",\"game\",\"players\"]],[32,0,[\"model\",\"game\",\"inProgress\"]],[32,0,[\"changeRole\"]]]],null],[2,\"\\n\"],[13],[2,\"\\n\"],[10,\"div\"],[14,0,\"pandemic-game__drawer-btns\"],[12],[2,\"\\n  \"],[10,\"div\"],[14,0,\"mb-3\"],[12],[2,\"\\n    \"],[8,\"bs-button\",[],[[\"@onClick\",\"@type\",\"@active\",\"@defaultText\"],[[32,0,[\"openTeamInfo\"]],\"info\",[32,0,[\"showTeamInfo\"]],\"Team Info\"]],null],[2,\"\\n    \"],[8,\"bs-button\",[],[[\"@onClick\",\"@type\",\"@active\",\"@defaultText\"],[[32,0,[\"openGameInfo\"]],\"primary\",[32,0,[\"showGameInfo\"]],\"Game Info\"]],null],[2,\"\\n  \"],[13],[2,\"\\n\"],[6,[37,0],[[32,0,[\"showDrawer\"]]],null,[[\"default\"],[{\"statements\":[[2,\"    \"],[11,\"button\"],[24,\"aria-label\",\"Close drawer\"],[24,0,\"close-btn rounded-circle\"],[24,4,\"button\"],[4,[38,1],[\"click\",[32,0,[\"closeDrawer\"]]],null],[12],[13],[2,\"\\n\"]],\"parameters\":[]}]]],[13],[2,\"\\n\"],[10,\"div\"],[15,0,[31,[\"pandemic-game__drawer\\n    \",[30,[36,0],[[32,0,[\"showDrawer\"]],\"pandemic-game__drawer--open\"],null],\"\\n     bg-light\"]]],[12],[2,\"\\n  \"],[10,\"div\"],[14,0,\"px-4\"],[12],[2,\"\\n\"],[6,[37,0],[[32,0,[\"showTeamInfo\"]]],null,[[\"default\",\"else\"],[{\"statements\":[[2,\"      \"],[8,\"team-info-display\",[],[[\"@players\"],[[32,0,[\"model\",\"game\",\"players\"]]]],null],[2,\"\\n\"]],\"parameters\":[]},{\"statements\":[[6,[37,0],[[32,0,[\"showGameInfo\"]]],null,[[\"default\"],[{\"statements\":[[2,\"      Game info\\n    \"]],\"parameters\":[]}]]]],\"parameters\":[]}]]],[2,\"    \"],[10,\"div\"],[14,1,\"map_container\"],[12],[2,\"\\n      \"],[10,\"svg\"],[14,1,\"map\"],[14,\"width\",\"100%\"],[12],[13],[2,\"\\n    \"],[13],[2,\"\\n  \"],[13],[2,\"\\n\"],[13],[2,\"\\n\"],[10,\"div\"],[14,1,\"map_container\"],[12],[2,\"\\n  \"],[10,\"svg\"],[14,1,\"map\"],[14,\"width\",\"100%\"],[12],[13],[2,\"\\n\"],[13]],\"hasEval\":false,\"upvars\":[\"if\",\"on\",\"-track-array\",\"each\"]}",
     "meta": {
       "moduleName": "pandemic/templates/game.hbs"
     }
@@ -2157,8 +2686,8 @@
   _exports.default = void 0;
 
   var _default = Ember.HTMLBars.template({
-    "id": "+uy7lYMF",
-    "block": "{\"symbols\":[\"form\",\"el\"],\"statements\":[[10,\"div\"],[14,0,\"pandemic-start\"],[12],[2,\"\\n  \"],[10,\"h1\"],[12],[2,\"\\n    Stop the Pandemic\\n  \"],[13],[2,\"\\n  \"],[10,\"p\"],[14,0,\"mb-5\"],[12],[2,\"\\n    Play Pandemic with your friends online!\\n  \"],[13],[2,\"\\n  \"],[8,\"bs-button\",[],[[\"@onClick\",\"@type\"],[[32,0,[\"createNewGame\"]],\"primary\"]],[[\"default\"],[{\"statements\":[[2,\"\\n    New Game\\n  \"]],\"parameters\":[]}]]],[2,\"\\n  \"],[10,\"p\"],[14,0,\"my-1\"],[12],[2,\"\\n    or\\n  \"],[13],[2,\"\\n  \"],[8,\"bs-form\",[[24,0,\"justify-content-center\"]],[[\"@formLayout\",\"@model\",\"@onSubmit\"],[\"inline\",[32,0],[32,0,[\"joinGame\"]]]],[[\"default\"],[{\"statements\":[[2,\"\\n    \"],[8,[32,1,[\"element\"]],[],[[\"@controlType\",\"@property\"],[\"text\",\"joinCode\"]],[[\"default\"],[{\"statements\":[[2,\"\\n      \"],[8,[32,2,[\"control\"]],[[24,0,\"mr-2\"],[24,\"placeholder\",\"Code (e.g. ABCD)\"]],[[],[]],null],[2,\"\\n    \"]],\"parameters\":[2]}]]],[2,\"\\n    \"],[8,[32,1,[\"submitButton\"]],[],[[\"@type\"],[[30,[36,0],[[32,1,[\"isRejected\"]],\"danger\",\"primary\"],null]]],[[\"default\"],[{\"statements\":[[2,\"\\n      Join Game\\n    \"]],\"parameters\":[]}]]],[2,\"\\n  \"]],\"parameters\":[1]}]]],[2,\"\\n\"],[6,[37,0],[[32,0,[\"joinErrorMessage\"]]],null,[[\"default\"],[{\"statements\":[[2,\"    \"],[10,\"p\"],[14,0,\"font-weight-light text-danger\"],[12],[2,\"\\n      \"],[1,[32,0,[\"joinErrorMessage\"]]],[2,\"\\n    \"],[13],[2,\"\\n\"]],\"parameters\":[]}]]],[13]],\"hasEval\":false,\"upvars\":[\"if\"]}",
+    "id": "wnq/mh2/",
+    "block": "{\"symbols\":[\"form\",\"el\",\"button\"],\"statements\":[[10,\"div\"],[14,0,\"pandemic-start\"],[12],[2,\"\\n  \"],[10,\"h1\"],[12],[2,\"\\n    Stop the Pandemic\\n  \"],[13],[2,\"\\n  \"],[10,\"p\"],[14,0,\"mb-5\"],[12],[2,\"\\n    Play Pandemic with your friends online!\\n  \"],[13],[2,\"\\n  \"],[8,\"bs-button\",[],[[\"@onClick\",\"@type\",\"@defaultText\",\"@rejectedText\"],[[32,0,[\"createNewGame\"]],\"primary\",\"New Game\",\"Oops! Try Again\"]],[[\"default\"],[{\"statements\":[[2,\"\\n\"],[6,[37,0],[[32,3,[\"isPending\"]]],null,[[\"default\"],[{\"statements\":[[2,\"      \"],[10,\"div\"],[14,0,\"spinner-grow spinner-grow-sm\"],[12],[13],[2,\"\\n\"]],\"parameters\":[]}]]],[2,\"  \"]],\"parameters\":[3]}]]],[2,\"\\n\"],[6,[37,0],[[32,0,[\"createErrorMessage\"]]],null,[[\"default\"],[{\"statements\":[[2,\"    \"],[10,\"p\"],[14,0,\"font-weight-light text-danger\"],[12],[2,\"\\n      \"],[1,[32,0,[\"createErrorMessage\"]]],[2,\"\\n    \"],[13],[2,\"\\n\"]],\"parameters\":[]}]]],[2,\"  \"],[10,\"p\"],[14,0,\"my-1\"],[12],[2,\"\\n    or\\n  \"],[13],[2,\"\\n  \"],[8,\"bs-form\",[[24,0,\"justify-content-center\"]],[[\"@formLayout\",\"@model\",\"@onSubmit\"],[\"inline\",[32,0],[32,0,[\"joinGame\"]]]],[[\"default\"],[{\"statements\":[[2,\"\\n    \"],[8,[32,1,[\"element\"]],[],[[\"@controlType\",\"@property\",\"@invisibleLabel\"],[\"text\",\"joinCode\",\"Join code\"]],[[\"default\"],[{\"statements\":[[2,\"\\n      \"],[8,[32,2,[\"control\"]],[[24,0,\"mr-2\"],[24,\"placeholder\",\"Code (e.g. ABCD)\"]],[[],[]],null],[2,\"\\n    \"]],\"parameters\":[2]}]]],[2,\"\\n    \"],[8,[32,1,[\"submitButton\"]],[],[[\"@type\"],[[30,[36,0],[[32,1,[\"isRejected\"]],\"danger\",\"primary\"],null]]],[[\"default\"],[{\"statements\":[[2,\"\\n      Join Game\\n\"],[6,[37,0],[[32,1,[\"isSubmitting\"]]],null,[[\"default\"],[{\"statements\":[[2,\"        \"],[10,\"div\"],[14,0,\"spinner-grow spinner-grow-sm\"],[12],[13],[2,\"\\n\"]],\"parameters\":[]}]]],[2,\"    \"]],\"parameters\":[]}]]],[2,\"\\n  \"]],\"parameters\":[1]}]]],[2,\"\\n\"],[6,[37,0],[[32,0,[\"joinErrorMessage\"]]],null,[[\"default\"],[{\"statements\":[[2,\"    \"],[10,\"p\"],[14,0,\"font-weight-light text-danger\"],[12],[2,\"\\n      \"],[1,[32,0,[\"joinErrorMessage\"]]],[2,\"\\n    \"],[13],[2,\"\\n\"]],\"parameters\":[]}]]],[13]],\"hasEval\":false,\"upvars\":[\"if\"]}",
     "meta": {
       "moduleName": "pandemic/templates/index.hbs"
     }
@@ -2263,7 +2792,7 @@
   Object.defineProperty(_exports, "__esModule", {
     value: true
   });
-  _exports.MAX_PLAYERS = _exports.ROLES = _exports.PLAYERCARDS = _exports.CITIES = void 0;
+  _exports.MAX_PLAYERS = _exports.ROLES = _exports.ROLE_DESCRIPTIONS = _exports.ROLE_NAMES = _exports.PLAYERCARDS = _exports.NUM_CITIES = _exports.CITIES = void 0;
   const CITIES = [{
     name: 'Atlanta',
     color: 'blue',
@@ -2276,6 +2805,8 @@
     pos: [30.6, 15.2]
   }];
   _exports.CITIES = CITIES;
+  const NUM_CITIES = CITIES.length;
+  _exports.NUM_CITIES = NUM_CITIES;
   const non_city_player_cards = [{
     name: 'Epidemic',
     is_city: false
@@ -2293,7 +2824,31 @@
 
   const PLAYERCARDS = CITIES.map(city_to_card).concat(non_city_player_cards);
   _exports.PLAYERCARDS = PLAYERCARDS;
-  const ROLES = ['Walking Jesus', 'Quarantine Queen', 'Scientist', 'Researcher', 'Dispatcher'];
+  const ROLE_NAMES = ['Walking Jesus', // Medic
+  'Quarantine Queen', // Quarantine Specialist
+  'Plan B Planner', // Contingency Planner
+  "Gotta Collect 'Em All", // Scientist
+  'Dealer', // Researcher
+  'Puppet Master', // Dispatcher
+  'Bob the Builder' // Operations Expert
+  ];
+  _exports.ROLE_NAMES = ROLE_NAMES;
+  const ROLE_DESCRIPTIONS = ['"WJ" removes all cubes, not 1, of the same color when doing the Treat Disease action. If a disease has been cured, they automatically remove all cubes of that color from a city, simply by entering it or being there. This does not take an action. The automatic removal also occurs when being moved by the "Puppet Master" or by Airlift. They also prevent placing disease cubes (and outbreaks) of cured diseases in their location.', // Medic
+  '"QQ" prevents both outbreaks and the placement of disease cubes in the city they are in and all cities connected to that city. They do not affect cubes placed during setup.', // Quarantine Specialist
+  '"PBP" may, as an action, take an Event card from anywhere in the Player Discard Pile. Only 1 special Event card can be possessed at a time. It does not count against their hand limit. When "PBP" plays the special Event card, it is removed from the game (instead of discarded).', // Contingency Planner
+  '"GCEM" needs only 4 (not 5) City cards of the same disease color to Discover a Cure for that disease.', // Scientist
+  'When doing the Share Knowledge action, "Dealer" may give any City card from their hand to another player in the same city as them, without this card having to match the location city. The transfer must be from their hand to the other player\'s hand, but it can occur on either player\'s turn.', // Researcher
+  "\"PM\" may, as an action, either (1) move any pawn, if its owner agrees, to any city containing another pawn, or (2) move another player's pawn, if its owner agrees, as if it were their own. When moving a player's pawn as if it were their own, they must discard cards for Direct and Charter Flights from their own hand. A card discarded for a Charter Flight must match the city the pawn is moving from. They can only move other players' pawns (not direct them to do other actions, such as Treat Disease).", // Dispatcher
+  '"BB" may, as an action, either (1) build a research station in their current city without discarding (or using) a City card, or (2) once per turn, move from a research station to any city by discarding any City card.' // Operations Expert
+  ];
+  _exports.ROLE_DESCRIPTIONS = ROLE_DESCRIPTIONS;
+  const ROLES = ROLE_NAMES.map((name, idx) => {
+    return {
+      name,
+      id: idx,
+      description: ROLE_DESCRIPTIONS[idx]
+    };
+  });
   _exports.ROLES = ROLES;
   const MAX_PLAYERS = 4;
   _exports.MAX_PLAYERS = MAX_PLAYERS;
@@ -2321,7 +2876,7 @@ catch(err) {
 
 ;
           if (!runningTests) {
-            require("pandemic/app")["default"].create({"name":"pandemic","version":"0.0.0+b6d16ddd"});
+            require("pandemic/app")["default"].create({"name":"pandemic","version":"0.0.0+43b5f75d"});
           }
         
 //# sourceMappingURL=pandemic.map

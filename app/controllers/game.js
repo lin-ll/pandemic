@@ -37,6 +37,21 @@ export default class GameController extends Controller {
     }
   }
 
+  @action
+  changeRole(role) {
+    if (role !== this.model.currentPlayer.role && !this.model.game.inProgress) {
+      this.model.currentPlayer.role = role;
+      return this.model.currentPlayer.save();
+    }
+  }
+
+  @action
+  startGame() {
+    // TODO: Game setup
+    this.model.game.inProgress = true;
+    return this.model.game.save();
+  }
+
   /**
    * @description Show game info in the drawer
    */

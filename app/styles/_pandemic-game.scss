@@ -10,6 +10,13 @@ $drawer-width: 300px;
   margin-right: $drawer-width;
 }
 
+.pandemic-game__role-chooser {
+  position: fixed;
+  top: 0;
+  left: 0;
+  padding: 1.5rem;
+}
+
 .pandemic-game__drawer-btns {
   position: fixed;
   width: $drawer-width;
