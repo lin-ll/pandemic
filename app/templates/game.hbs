@@ -42,7 +42,8 @@
     </form.element>
   </BsForm>
   <p>
-    cities
+    {{#each model.game.cities as |city|}}
+      cities
       <li>
         id is
         {{city.cardId}}
@@ -92,7 +93,11 @@
     {{else if this.showGameInfo}}
       Game info
     {{/if}}
-  <div id="map_container">
-    <svg id="map" width="100%"></svg>
+    <div id="map_container">
+      <svg id="map" width="100%"></svg>
+    </div>
   </div>
+</div>
+<div id="map_container">
+  <svg id="map" width="100%"></svg>
 </div>
