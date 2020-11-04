@@ -22,6 +22,14 @@ export default class GameController extends Controller {
   @tracked showTeamInfo = false;
 
   /**
+   * @description Name of the player whose turn it is
+   * @returns {String}
+   */
+  get currentTurn() {
+    return this.model.game.players.find((player) => player.isTurn)?.name;
+  }
+
+  /**
    * @description Whether or not the show the drawer
    * @type {Boolean}
    */
@@ -29,14 +37,26 @@ export default class GameController extends Controller {
     return this.showGameInfo || this.showTeamInfo;
   }
 
+  /**
+   * @description Change the current player's name
+   * @returns {Promise|null}
+   */
   @action
   changeName() {
-    if (this.currentPlayerName !== this.model.currentPlayer.name) {
+    if (
+      this.currentPlayerName &&
+      this.currentPlayerName !== this.model.currentPlayer.name
+    ) {
       this.model.currentPlayer.name = this.currentPlayerName;
       return this.model.currentPlayer.save();
     }
   }
 
+  /**
+   * @description Change the current player's role
+   * @param {Number} role
+   * @returns {Promise|null}
+   */
   @action
   changeRole(role) {
     if (role !== this.model.currentPlayer.role && !this.model.game.inProgress) {
@@ -45,6 +65,10 @@ export default class GameController extends Controller {
     }
   }
 
+  /**
+   * @description Start the game
+   * @returns {Promise}
+   */
   @action
   startGame() {
     // TODO: Game setup

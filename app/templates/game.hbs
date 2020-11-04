@@ -11,44 +11,59 @@
       </BsPopover>
     </BsButton>
   </p>
-  <BsForm
-    @formLayout="inline"
-    @model={{this}}
-    @onSubmit={{this.changeName}}
-    class="justify-content-center mb-2" as |form|
-  >
-    <form.element
-      @controlType="text"
-      @property="currentPlayerName"
-      @label="Your name is:"
-      class="flex-nowrap ml-2" as |el|
+  {{#if this.model.currentPlayer}}
+    <BsForm
+      @formLayout="inline"
+      @model={{this}}
+      @onSubmit={{this.changeName}}
+      @disabled={{this.model.game.inProgress}}
+      class="justify-content-center mb-2" as |form|
     >
-      <el.control
-        class="ml-2 pr-5"
-        value={{this.model.currentPlayer.name}}
-        {{on 'focusout' form.submit}}
-      />
-      {{#if form.isSubmitting}}
-        <div class="spinner-grow spinner-grow-sm text-success ml-n4"></div>
-      {{else if form.isSubmitted}}
-        <FaIcon @icon="check" class="text-success ml-n4" />
-      {{else if form.isRejected}}
-        <FaIcon @icon="times" class="change-name-error text-danger ml-n4" />
-        <BsTooltip
-          @title="We encountered an error saving this info. Please try again."
-          @triggerElement=".change-name-error"
+      <form.element
+        @controlType="text"
+        @property="currentPlayerName"
+        @label="Your name is:"
+        class="flex-nowrap ml-2" as |el|
+      >
+        <el.control
+          class="ml-2 pr-5"
+          value={{this.model.currentPlayer.name}}
+          {{on 'focusout' form.submit}}
         />
-      {{/if}}
-    </form.element>
-  </BsForm>
-  {{#if this.model.game.inProgress}}
-
+        {{#if form.isSubmitting}}
+          <div class="spinner-grow spinner-grow-sm text-success ml-n4"></div>
+        {{else if form.isSubmitted}}
+          <FaIcon @icon="check" class="text-success ml-n4" />
+        {{else if form.isRejected}}
+          <FaIcon @icon="times" class="change-name-error text-danger ml-n4" />
+          <BsTooltip
+            @title="We encountered an error saving this info. Please try again."
+            @triggerElement=".change-name-error"
+          />
+        {{/if}}
+      </form.element>
+    </BsForm>
   {{else}}
+    <p>
+      You are not a player in this game.
+    </p>
+  {{/if}}
+  {{#if this.model.game.inProgress}}
+    <p>
+      It is
+      {{concat this.currentTurn "'s"}}
+      turn.
+    </p>
+  {{else if this.model.currentPlayer}}
     <BsButton
       @type="dark"
       @onClick={{this.startGame}}
       @defaultText="Start the Game"
     />
+  {{else}}
+    <p>
+      The game has not started.
+    </p>
   {{/if}}
   <p>
     cities
@@ -60,14 +75,16 @@
     {{/each}}
   </p>
 </div>
-<div class="pandemic-game__role-chooser">
-  <RoleChooser
-    @currentPlayer={{this.model.currentPlayer}}
-    @players={{this.model.game.players}}
-    @inProgress={{this.model.game.inProgress}}
-    @selectItem={{this.changeRole}}
-  />
-</div>
+{{#if this.model.currentPlayer}}
+  <div class="pandemic-game__role-chooser">
+    <RoleChooser
+      @currentPlayer={{this.model.currentPlayer}}
+      @players={{this.model.game.players}}
+      @inProgress={{this.model.game.inProgress}}
+      @selectItem={{this.changeRole}}
+    />
+  </div>
+{{/if}}
 <div class="pandemic-game__drawer-btns">
   <div class="mb-3">
     <BsButton
