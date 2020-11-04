@@ -32,6 +32,10 @@ module.exports = function (environment) {
       appId: '1:843776574062:web:6e181a6b8241e102159c7f',
       measurementId: 'G-CXFHKE6ZHD',
     },
+
+    'ember-d3': {
+      bundle: true,
+    },
   };
 
   if (environment === 'development') {
