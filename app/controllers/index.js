@@ -92,25 +92,27 @@ export default class IndexController extends Controller {
    */
   _initializeNewGame(code) {
     this.createErrorMessage = '';
-    const promises = [];
-    const newGame = this.store.createRecord('game', {
-      code,
-      infectionDeck: [1, 2, 3],
-      infectionDiscard: [],
-      playerDeck: [4, 5, 6],
-      playerDiscard: [],
-    });
-    promises.push(newGame.save());
 
-    for (let i = 0; i < NUM_CITIES; i++) {
-      const city = this.store.createRecord('city', {
-        cardId: i,
-        game: newGame,
-      });
-      promises.push(city.save());
-    }
-
-    return all(promises)
+    return this.store
+      .createRecord('game', {
+        code,
+        infectionDeck: [1, 2, 3],
+        infectionDiscard: [],
+        playerDeck: [4, 5, 6],
+        playerDiscard: [],
+      })
+      .save()
+      .then((game) => {
+        const cityPromises = [];
+        for (let i = 0; i < NUM_CITIES; i++) {
+          const city = this.store.createRecord('city', {
+            cardId: i,
+            game,
+          });
+          cityPromises.push(city.save());
+        }
+        return all(cityPromises);
+      })
       .then(() => {
         this.transitionToRoute('game', code);
       })
