@@ -4,6 +4,12 @@ import { tracked } from '@glimmer/tracking';
 
 export default class GameController extends Controller {
   /**
+   * @description The name entered into the form
+   * @type {String}
+   */
+  currentPlayerName;
+
+  /**
    * @description Whether or not to show the game info
    * @type {Boolean}
    */
@@ -21,6 +27,14 @@ export default class GameController extends Controller {
    */
   get showDrawer() {
     return this.showGameInfo || this.showTeamInfo;
+  }
+
+  @action
+  changeName() {
+    if (this.currentPlayerName !== this.model.currentPlayer.name) {
+      this.model.currentPlayer.name = this.currentPlayerName;
+      return this.model.currentPlayer.save();
+    }
   }
 
   /**

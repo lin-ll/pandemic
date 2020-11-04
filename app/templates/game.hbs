@@ -4,11 +4,46 @@
   </h1>
   <p>
     Your game code is:
-    {{uppercase this.model.code}}
+    <BsButton @type="light" @size="sm" class="ml-1">
+      {{uppercase this.model.game.code}}
+      <BsPopover>
+        Share this code with your friends so they can join your game!
+      </BsPopover>
+    </BsButton>
   </p>
+  <BsForm
+    @formLayout="inline"
+    @model={{this}}
+    @onSubmit={{this.changeName}}
+    class="justify-content-center" as |form|
+  >
+    <form.element
+      @controlType="text"
+      @property="currentPlayerName"
+      @label="Your name is:"
+      class="flex-nowrap ml-2" as |el|
+    >
+      <el.control
+        class="ml-2 pr-5"
+        value={{this.model.currentPlayer.name}}
+        {{on 'focusout' form.submit}}
+      />
+      {{#if form.isSubmitting}}
+        <div class="spinner-grow spinner-grow-sm text-success ml-n4"></div>
+      {{else if form.isSubmitted}}
+        <FaIcon @icon="check" class="text-success ml-n4" />
+      {{else if form.isRejected}}
+        <FaIcon @icon="times" class="change-name-error text-danger ml-n4" />
+        <BsTooltip
+          @title="We encountered an error saving this info. Please try again."
+          @triggerElement=".change-name-error"
+        />
+      {{/if}}
+    </form.element>
+  </BsForm>
   <p>
     cities
-    {{#each model.cities as |city|}}
+    {{#each model.game.cities as |city|}}
       <li>
         id is
         {{city.cardId}}
@@ -47,7 +82,7 @@
 >
   <div class="px-4">
     {{#if this.showTeamInfo}}
-      {{#each this.model.players as |player|}}
+      {{#each this.model.game.players as |player|}}
         <li
           class="pandemic-game__player
             {{if player.isTurn 'pandemic-game__player--active'}}"

@@ -12,14 +12,14 @@ export default class GameRoute extends Route {
         //   this.replaceWith('index');
         // }
 
-        // this.currentPlayer = this.store.createRecord('player', {
-        //   game,
-        //   name: `Player ${players.length + 1}`,
-        //   hand: [],
-        // });
-        // this.currentPlayer.save();
+        const currentPlayer = this.store.createRecord('player', {
+          game,
+          name: `Player ${players.length + 1}`,
+          hand: [],
+        });
 
-        return game;
+        return hash({ game, currentPlayer: currentPlayer.save() });
+        // return { game };
       });
   }
 }

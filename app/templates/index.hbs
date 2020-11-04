@@ -29,7 +29,11 @@
     @onSubmit={{this.joinGame}}
     class="justify-content-center" as |form|
   >
-    <form.element @controlType="text" @property="joinCode" as |el|>
+    <form.element
+      @controlType="text"
+      @property="joinCode"
+      @invisibleLabel="Join code" as |el|
+    >
       <el.control class="mr-2" placeholder="Code (e.g. ABCD)" />
     </form.element>
     <form.submitButton @type={{if form.isRejected 'danger' 'primary'}}>
