@@ -33,13 +33,13 @@
         {{#if form.isSubmitting}}
           <div class="spinner-grow spinner-grow-sm text-success ml-n4"></div>
         {{else if form.isSubmitted}}
-          <FaIcon @icon="check" class="text-success ml-n4" />
+          <i class="fas fa-check text-success ml-n4"></i>
         {{else if form.isRejected}}
-          <FaIcon @icon="times" class="change-name-error text-danger ml-n4" />
-          <BsTooltip
-            @title="We encountered an error saving this info. Please try again."
-            @triggerElement=".change-name-error"
-          />
+          <i class="fas fa-times text-danger ml-n4">
+            <BsTooltip
+              @title="We encountered an error saving this info. Please try again."
+            />
+          </i>
         {{/if}}
       </form.element>
     </BsForm>
@@ -118,11 +118,8 @@
     {{#if this.showTeamInfo}}
       <TeamInfoDisplay @players={{this.model.game.players}} />
     {{else if this.showGameInfo}}
-      Game info
+      <GameInfoDisplay @game={{this.model.game}} />
     {{/if}}
-    <div id="map_container">
-      <svg id="map" width="100%"></svg>
-    </div>
   </div>
 </div>
 <div id="map_container">

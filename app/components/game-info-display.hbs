@@ -1,0 +1,103 @@
+<h5>
+  <i class="game-info-display__icon fas fa-biohazard text-info">
+    <BsTooltip
+      @title="This indicates the number of cities infected per turn."
+    />
+  </i>
+  Infection rate
+  <span class="float-right">
+    {{@game.infectionRate}}
+  </span>
+</h5>
+<h5>
+  <i class="game-info-display__icon fas fa-expand-arrows-alt text-danger">
+    <BsTooltip
+      @title="If this number reaches 8, a worldwide panic happens, causing you to lose the game."
+    />
+  </i>
+  Outbreaks
+  <span class="float-right">
+    {{@game.numOutbreaks}}
+  </span>
+</h5>
+<h5>
+  <i class="game-info-display__icon fas fa-plus-square text-primary">
+    <BsTooltip
+      @title="If not enough player cards are left when needed, you run out of time and lose the game."
+    />
+  </i>
+  Player cards
+  <span class="float-right">
+    {{@game.playerDeck.length}}
+  </span>
+</h5>
+<h5>
+  <i
+    class="game-info-display__icon fas fa-sm fa-exclamation-triangle text-success"
+  >
+    <BsTooltip @title="Number of epidemics that have occurred." />
+  </i>
+  Epidemics
+  <span class="float-right">
+    {{@game.numEpidemics}}
+  </span>
+</h5>
+<h5>
+  <i class="game-info-display__icon fas fa-sm fa-warehouse text-secondary">
+    <BsTooltip @title="Number of remaining research status to place." />
+  </i>
+  Research stations
+  <span class="float-right">
+    {{@game.remainingResearchStations}}
+  </span>
+</h5>
+<hr />
+<h5 class="mt-4">
+  Cure Status
+  <i class="fas fa-{{get-disease-icon 2}} float-right ml-1">
+    <BsTooltip @title="Eradicated" />
+  </i>
+  <i class="fas fa-{{get-disease-icon 1}} float-right ml-1">
+    <BsTooltip @title="Cured" />
+  </i>
+  <i class="fas fa-{{get-disease-icon 0}} float-right ml-1">
+    <BsTooltip @title="Uncured" />
+  </i>
+</h5>
+<div class="d-flex justify-content-between text-light">
+  <div class="game-info-display__disease bg-danger">
+    <i class="fas fa-lg fa-{{get-disease-icon @game.cureStatusRed}}"></i>
+  </div>
+  <div class="game-info-display__disease bg-warning">
+    <i class="fas fa-lg fa-{{get-disease-icon @game.cureStatusYellow}}"></i>
+  </div>
+  <div class="game-info-display__disease bg-primary">
+    <i class="fas fa-lg fa-{{get-disease-icon @game.cureStatusBlue}}"></i>
+  </div>
+  <div class="game-info-display__disease bg-dark">
+    <i class="fas fa-lg fa-{{get-disease-icon @game.cureStatusBlack}}"></i>
+  </div>
+</div>
+<h5 class="mt-4">
+  Disease Cubes
+  <i class="fas fa-cubes float-right">
+    <BsTooltip
+      @title="If not enough disease cubes are left when needed, you lose the game."
+    />
+  </i>
+</h5>
+<div class="d-flex justify-content-between text-light font-weight-bold">
+  <p class="game-info-display__disease bg-danger">
+    {{@game.diseaseCubesRed}}
+  </p>
+  <p class="game-info-display__disease bg-warning">
+    {{@game.diseaseCubesYellow}}
+  </p>
+  <p class="game-info-display__disease bg-primary">
+    {{@game.diseaseCubesBlue}}
+  </p>
+  <p class="game-info-display__disease bg-dark">
+    {{@game.diseaseCubesBlack}}
+  </p>
+</div>
+<hr />
