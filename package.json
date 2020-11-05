@@ -21,8 +21,6 @@
   },
   "devDependencies": {
     "@ember/optional-features": "^2.0.0",
-    "@fortawesome/ember-fontawesome": "^0.2.2",
-    "@fortawesome/free-solid-svg-icons": "^5.15.1",
     "@glimmer/component": "^1.0.2",
     "@glimmer/tracking": "^1.0.2",
     "babel-eslint": "^10.1.0",
@@ -79,6 +77,8 @@
     }
   },
   "dependencies": {
+    "@fortawesome/ember-fontawesome": "^0.2.2",
+    "@fortawesome/free-solid-svg-icons": "^5.15.1",
     "three": "^0.122.0"
   }
 }

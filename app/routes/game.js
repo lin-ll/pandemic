@@ -10,9 +10,9 @@ export default class GameRoute extends Route {
       .queryRecord('game', { filter: { code } })
       .then((game) => hash({ game, players: game.players }))
       .then(({ game, players }) => {
-        // if (game.inProgress || players.length >= MAX_PLAYERS) {
-        //   this.replaceWith('index');
-        // }
+        if (game.inProgress || players.length >= MAX_PLAYERS) {
+          return { game };
+        }
 
         const currentPlayer = this.store.createRecord('player', {
           game,
@@ -21,7 +21,6 @@ export default class GameRoute extends Route {
         });
 
         return hash({ game, currentPlayer: currentPlayer.save() });
-        // return { game };
       });
   }
 

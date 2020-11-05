@@ -9901,4 +9901,98 @@ h3 {
   margin-top: 25vh;
 }
 
+.pandemic-game {
+  text-align: center;
+  margin-top: 1rem;
+  transition: 0.5s;
+  /* 0.5 second transition effect to slide in the sidenav */
+}
+
+.pandemic-game--pushed {
+  margin-right: 300px;
+}
+
+.pandemic-game__role-chooser {
+  position: fixed;
+  top: 0;
+  left: 0;
+  padding: 1.5rem;
+}
+
+.pandemic-game__drawer-btns {
+  position: fixed;
+  width: 300px;
+  top: 0;
+  right: 0;
+  z-index: 10;
+  /* Render above drawer */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 1.5rem;
+}
+
+.pandemic-game__drawer {
+  height: 100%;
+  /* 100% Full-height */
+  width: 0;
+  /* 0 width - change this with JavaScript */
+  position: fixed;
+  /* Stay in place */
+  z-index: 1;
+  /* Stay on top */
+  top: 0;
+  /* Stay at the top */
+  right: 0;
+  overflow-x: hidden;
+  /* Disable horizontal scroll */
+  padding-top: 9.5rem;
+  /* Place content 9.5rem from the top */
+  transition: 0.5s;
+  /* 0.5 second transition effect to slide in the sidenav */
+}
+
+.pandemic-game__drawer--open {
+  width: 300px;
+}
+
+.team-info-display__name > h5 > button {
+  text-align: left;
+  padding: 0;
+}
+.team-info-display__name > h5 > button:hover {
+  text-decoration: none;
+}
+
+.close-btn {
+  position: relative;
+  border: none;
+  width: 48px;
+  height: 48px;
+  opacity: 0.6;
+  background-color: lightgray;
+}
+
+.close-btn:hover {
+  opacity: 1;
+}
+
+.close-btn:before,
+.close-btn:after {
+  position: absolute;
+  top: 8px;
+  content: " ";
+  height: 33px;
+  width: 2px;
+  background-color: #333;
+}
+
+.close-btn:before {
+  transform: rotate(45deg);
+}
+
+.close-btn:after {
+  transform: rotate(-45deg);
+}
+
 /*# sourceMappingURL=pandemic.css.map */

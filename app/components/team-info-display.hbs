@@ -1,0 +1,36 @@
+<BsAccordion as |acc|>
+  {{#each @players as |player|}}
+    {{#let (get-role-info player.role) as |role|}}
+      <acc.item as |aitem|>
+        <aitem.title class="team-info-display__name">
+          <span>
+            {{player.name}}
+          </span>
+          {{#if player.isTurn}}
+            <FaIcon @icon="star" class="turn-indicator text-success" />
+            <BsTooltip
+              @title="It is this player's turn!"
+              @triggerElement=".turn-indicator"
+              @placement="right"
+            />
+          {{/if}}
+          <br />
+          <span class="small text-secondary">
+            {{role.name}}
+          </span>
+        </aitem.title>
+        <aitem.body>
+          {{#if role}}
+            <p>
+              <b>Role Description:</b>
+              {{role.description}}
+            </p>
+          {{/if}}
+          <p>
+              <b>Hand:</b>
+            </p>
+        </aitem.body>
+      </acc.item>
+    {{/let}}
+  {{/each}}
+</BsAccordion>

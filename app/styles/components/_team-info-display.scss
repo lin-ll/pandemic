@@ -1,0 +1,10 @@
+.team-info-display__name {
+  > h5 > button {
+    text-align: left;
+    padding: 0;
+  }
+
+  > h5 > button:hover {
+    text-decoration: none;
+  }
+}

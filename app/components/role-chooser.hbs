@@ -1,0 +1,31 @@
+<BsDropdown as |dropdown|>
+  <dropdown.button @type="warning" disabled={{@inProgress}}>
+    {{#let (get-role-info @currentPlayer.role) as |currentRole|}}
+      {{if currentRole currentRole.name 'Choose a Role'}}
+    {{/let}}
+    <span class="caret"></span>
+    <BsTooltip
+      @title="If unselected, you'll be randomly assigned a role when the game starts."
+      @placement="right"
+    />
+  </dropdown.button>
+  <dropdown.menu as |menu|>
+    {{#each this.availableRoles as |role|}}
+      <menu.item>
+        <button
+          type="button"
+          class="dropdown-item"
+          {{on 'click' (fn @selectItem role.id)}}
+        >
+          {{role.name}}
+        </button>
+      </menu.item>
+    {{else}}
+      <menu.item>
+        <button type="button" class="dropdown-item" disabled>
+          No available roles
+        </button>
+      </menu.item>
+    {{/each}}
+  </dropdown.menu>
+</BsDropdown>
