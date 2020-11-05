@@ -2,15 +2,21 @@ export const CITIES = [
   {
     name: 'Atlanta',
     color: 'blue',
-    connections: [2, 4, 12],
-    pos: [10.5, 20.2],
+    connections: [1],
+    pos: [100.5, 200.2],
   },
 
   {
     name: 'Beijing',
     color: 'red',
-    connections: [13, 14, 15],
-    pos: [30.6, 15.2],
+    connections: [0,2],
+    pos: [300.6, 400.2],
+  },
+  {
+    name: 'Jakarta',
+    color: 'yellow',
+    connections: [1],
+    pos: [800, 300],
   },
 ];
 

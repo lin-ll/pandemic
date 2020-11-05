@@ -74,6 +74,9 @@
       </li>
     {{/each}}
   </p>
+  <div id="map_container">
+    <svg id="map" width="100%" ></svg>
+  </div>
 </div>
 {{#if this.model.currentPlayer}}
   <div class="pandemic-game__role-chooser">
@@ -120,11 +123,5 @@
     {{else if this.showGameInfo}}
       Game info
     {{/if}}
-    <div id="map_container">
-      <svg id="map" width="100%"></svg>
-    </div>
   </div>
-</div>
-<div id="map_container">
-  <svg id="map" width="100%"></svg>
 </div>
