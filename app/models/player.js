@@ -1,6 +1,5 @@
 import Model, { attr, belongsTo } from '@ember-data/model';
-
-const HAND_LIMIT = 7;
+import { HAND_LIMIT } from '../utils/constants';
 
 export default class PlayerModel extends Model {
   @belongsTo('game') game;
@@ -20,5 +19,29 @@ export default class PlayerModel extends Model {
   // Player needs to discard / use cards if over the hand limit
   get overHandLimit() {
     return this.hand ? this.hand.length > HAND_LIMIT : false;
+  }
+
+  /**
+   * @description Change the player name
+   * @param {String} newName
+   * @returns {Promise|void}
+   */
+  changeName(newName) {
+    if (newName && newName !== this.name) {
+      this.name = newName;
+      return this.save();
+    }
+  }
+
+  /**
+   * @description Change the player's role
+   * @param {Number} newRole
+   * @returns {Promise|void}
+   */
+  changeRole(newRole) {
+    if (newRole !== this.role) {
+      this.role = newRole;
+      return this.save();
+    }
   }
 }

@@ -22,16 +22,10 @@ export default class NameChangerComponent extends Component {
 
   /**
    * @description Change the current player's name
-   * @returns {Promise|null}
+   * @returns {Promise|void}
    */
   @action
   changeName() {
-    if (
-      this.currentPlayerName &&
-      this.currentPlayerName !== this.args.currentPlayer.name
-    ) {
-      this.args.currentPlayer.name = this.currentPlayerName;
-      return this.args.currentPlayer.save();
-    }
+    return this.args.currentPlayer.changeName(this.currentPlayerName);
   }
 }

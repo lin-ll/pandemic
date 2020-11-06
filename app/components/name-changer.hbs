@@ -4,7 +4,8 @@
     @model={{this}}
     @onSubmit={{this.changeName}}
     @disabled={{@disabled}}
-    class="justify-content-center mb-2" as |form|
+    class="justify-content-center mb-2"
+    data-test-name-changer__form as |form|
   >
     <form.element
       @controlType="text"
@@ -15,14 +16,24 @@
       <el.control
         class="ml-2 pr-5"
         value={{@currentPlayer.name}}
+        data-test-name-changer__input
         {{on 'focusout' form.submit}}
       />
       {{#if form.isSubmitting}}
-        <div class="spinner-grow spinner-grow-sm text-success ml-n4"></div>
+        <div
+          class="spinner-grow spinner-grow-sm text-success ml-n4"
+          data-test-name-changer__spinner
+        ></div>
       {{else if form.isSubmitted}}
-        <i class="fas fa-check text-success ml-n4"></i>
+        <i
+          class="fas fa-check text-success ml-n4"
+          data-test-name-changer__success
+        ></i>
       {{else if form.isRejected}}
-        <i class="fas fa-times text-danger ml-n4">
+        <i
+          class="fas fa-times text-danger ml-n4"
+          data-test-name-changer__error
+        >
           <BsTooltip
             @title="We encountered an error saving this info. Please try again."
           />
@@ -31,7 +42,7 @@
     </form.element>
   </BsForm>
 {{else}}
-  <p>
+  <p data-test-name-changer__non-player>
     You are not a player in this game.
   </p>
 {{/if}}

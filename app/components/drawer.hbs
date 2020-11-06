@@ -5,12 +5,14 @@
       @type="info"
       @active={{this.showTeamInfo}}
       @defaultText="Team Info"
+      data-test-drawer__btn="team"
     />
     <BsButton
       @onClick={{this.openGameInfo}}
       @type="primary"
       @active={{this.showGameInfo}}
       @defaultText="Game Info"
+      data-test-drawer__btn="game"
     />
   </div>
   {{#if this.showDrawer}}
@@ -18,16 +20,20 @@
       type="button"
       aria-label="Close drawer"
       class="close-btn rounded-circle"
+      data-test-drawer__close-btn
       {{on 'click' this.closeDrawer}}
     ></button>
   {{/if}}
 </div>
-<div class="drawer {{if this.showDrawer 'drawer--open'}} bg-light">
+<div
+  class="drawer {{if this.showDrawer 'drawer--open'}} bg-light"
+  data-test-drawer
+>
   <div class="px-4 pb-4 h-100 overflow-scroll">
     {{#if this.showTeamInfo}}
-      <TeamInfoDisplay @players={{@game.players}} />
+      <TeamInfoDisplay @players={{@game.players}} data-test-drawer__team-info />
     {{else if this.showGameInfo}}
-      <GameInfoDisplay @game={{@game}} />
+      <GameInfoDisplay @game={{@game}} data-test-drawer__game-info />
     {{/if}}
   </div>
 </div>

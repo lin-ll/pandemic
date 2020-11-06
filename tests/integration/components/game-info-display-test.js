@@ -7,20 +7,54 @@ module('Integration | Component | game-info-display', function (hooks) {
   setupRenderingTest(hooks);
 
   test('it renders', async function (assert) {
-    // Set any properties with this.set('myProperty', 'value');
-    // Handle any actions with this.set('myAction', function(val) { ... });
+    assert.expect(11);
 
-    await render(hbs`<GameInfoDisplay />`);
+    this.game = {
+      infectionRate: 3,
+      numOutbreaks: 5,
+      playerDeck: [1, 2],
+      numEpidemics: 0,
+      remainingResearchStations: 1,
+      diseaseCubesRed: 20,
+      diseaseCubesYellow: 10,
+      diseaseCubesBlue: 15,
+      diseaseCubesBlack: 8,
+    };
 
-    assert.equal(this.element.textContent.trim(), '');
+    await render(hbs`<GameInfoDisplay @game={{this.game}} />`);
 
-    // Template block usage:
-    await render(hbs`
-      <GameInfoDisplay>
-        template block text
-      </GameInfoDisplay>
-    `);
+    assert.dom('[data-test-game-info-display__headline]').exists({ count: 5 });
+    assert
+      .dom('[data-test-game-info-display__disease-cubes]')
+      .exists({ count: 4 });
 
-    assert.equal(this.element.textContent.trim(), 'template block text');
+    assert
+      .dom('[data-test-game-info-display__headline=infection]')
+      .hasText(`${this.game.infectionRate}`);
+    assert
+      .dom('[data-test-game-info-display__headline=outbreaks]')
+      .hasText(`${this.game.numOutbreaks}`);
+    assert
+      .dom('[data-test-game-info-display__headline=cards]')
+      .hasText(`${this.game.playerDeck.length}`);
+    assert
+      .dom('[data-test-game-info-display__headline=epidemics]')
+      .hasText(`${this.game.numEpidemics}`);
+    assert
+      .dom('[data-test-game-info-display__headline=stations]')
+      .hasText(`${this.game.remainingResearchStations}`);
+
+    assert
+      .dom('[data-test-game-info-display__disease-cubes=red]')
+      .hasText(`${this.game.diseaseCubesRed}`);
+    assert
+      .dom('[data-test-game-info-display__disease-cubes=yellow]')
+      .hasText(`${this.game.diseaseCubesYellow}`);
+    assert
+      .dom('[data-test-game-info-display__disease-cubes=blue]')
+      .hasText(`${this.game.diseaseCubesBlue}`);
+    assert
+      .dom('[data-test-game-info-display__disease-cubes=black]')
+      .hasText(`${this.game.diseaseCubesBlack}`);
   });
 });

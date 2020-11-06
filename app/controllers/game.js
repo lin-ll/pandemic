@@ -11,19 +11,6 @@ export default class GameController extends Controller {
   }
 
   /**
-   * @description Change the current player's role
-   * @param {Number} role
-   * @returns {Promise|null}
-   */
-  @action
-  changeRole(role) {
-    if (role !== this.model.currentPlayer.role && !this.model.game.inProgress) {
-      this.model.currentPlayer.role = role;
-      return this.model.currentPlayer.save();
-    }
-  }
-
-  /**
    * @description Start the game
    * @returns {Promise}
    */

@@ -1,7 +1,11 @@
 {{#if @currentPlayer}}
-  <div ...attributes>
+  <div data-test-role-chooser ...attributes>
     <BsDropdown as |dropdown|>
-      <dropdown.button @type="warning" disabled={{@disabled}}>
+      <dropdown.button
+        @type="warning"
+        disabled={{@disabled}}
+        data-test-role-chooser__btn
+      >
         {{#let (get-role-info @currentPlayer.role) as |currentRole|}}
           {{if currentRole currentRole.name 'Choose a Role'}}
         {{/let}}
@@ -17,6 +21,7 @@
             <button
               type="button"
               class="dropdown-item"
+              data-test-role-chooser__role
               {{on 'click' (fn this.changeRole role.id)}}
             >
               {{role.name}}
@@ -24,7 +29,12 @@
           </menu.item>
         {{else}}
           <menu.item>
-            <button type="button" class="dropdown-item" disabled>
+            <button
+              type="button"
+              class="dropdown-item"
+              data-test-role-chooser__role--none
+              disabled
+            >
               No available roles
             </button>
           </menu.item>

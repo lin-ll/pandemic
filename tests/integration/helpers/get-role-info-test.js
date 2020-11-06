@@ -16,10 +16,13 @@ module('Integration | Helper | get-role-info', function (hooks) {
   setupRenderingTest(hooks);
 
   test('it gets the correct role info for the given role id', async function (assert) {
+    assert.expect(ROLES.length);
+
+    await renderRoleInfo();
+
     for (let i = 0; i < ROLES.length; i++) {
       const role = ROLES[i];
       this.set('roleId', i);
-      await renderRoleInfo();
       assert.equal(
         this.element.textContent.trim(),
         `${role.id},${role.name},${role.description}`

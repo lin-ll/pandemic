@@ -7,20 +7,20 @@ module('Integration | Helper | get-disease-icon', function (hooks) {
   setupRenderingTest(hooks);
 
   test('it returns the correct icon for the given status', async function (assert) {
-    this.set('status', 0);
+    assert.expect(5);
+
     await render(hbs`{{get-disease-icon this.status}}`);
+
+    this.set('status', 0);
     assert.equal(this.element.textContent.trim(), 'skull');
 
     this.set('status', 1);
-    await render(hbs`{{get-disease-icon this.status}}`);
     assert.equal(this.element.textContent.trim(), 'vial');
 
     this.set('status', 2);
-    await render(hbs`{{get-disease-icon this.status}}`);
     assert.equal(this.element.textContent.trim(), 'ban');
 
     this.set('status', 3);
-    await render(hbs`{{get-disease-icon this.status}}`);
     assert.equal(
       this.element.textContent.trim(),
       '',
@@ -28,7 +28,6 @@ module('Integration | Helper | get-disease-icon', function (hooks) {
     );
 
     this.set('status', 'foobar');
-    await render(hbs`{{get-disease-icon this.status}}`);
     assert.equal(
       this.element.textContent.trim(),
       '',

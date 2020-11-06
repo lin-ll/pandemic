@@ -1,26 +1,64 @@
 import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
-import { render } from '@ember/test-helpers';
+import { click, render } from '@ember/test-helpers';
 import { hbs } from 'ember-cli-htmlbars';
 
 module('Integration | Component | drawer', function (hooks) {
   setupRenderingTest(hooks);
 
   test('it renders', async function (assert) {
-    // Set any properties with this.set('myProperty', 'value');
-    // Handle any actions with this.set('myAction', function(val) { ... });
+    assert.expect(18);
 
-    await render(hbs`<Drawer />`);
+    this.game = {};
+    await render(hbs`<Drawer @game={{this.game}} />`);
 
-    assert.equal(this.element.textContent.trim(), '');
+    assert.dom('[data-test-drawer__btn=game]').exists();
+    assert.dom('[data-test-drawer__btn=team]').exists();
+    assert.dom('[data-test-drawer]').doesNotHaveClass('drawer--open');
+    assert
+      .dom('[data-test-drawer__close-btn]')
+      .doesNotExist('the close btn is not shown');
+    assert
+      .dom('[data-test-drawer__game-info]')
+      .doesNotExist('game info is not shown');
+    assert
+      .dom('[data-test-drawer__team-info]')
+      .doesNotExist('team info is not shown');
 
-    // Template block usage:
-    await render(hbs`
-      <Drawer>
-        template block text
-      </Drawer>
-    `);
+    await click('[data-test-drawer__btn=game]');
+    assert.dom('[data-test-drawer]').hasClass('drawer--open');
+    assert
+      .dom('[data-test-drawer__close-btn]')
+      .exists('the close btn is now shown');
+    assert
+      .dom('[data-test-drawer__game-info]')
+      .exists('game info is now shown');
+    assert
+      .dom('[data-test-drawer__team-info]')
+      .doesNotExist('team info is still not shown');
 
-    assert.equal(this.element.textContent.trim(), 'template block text');
+    await click('[data-test-drawer__btn=team]');
+    assert.dom('[data-test-drawer]').hasClass('drawer--open');
+    assert
+      .dom('[data-test-drawer__close-btn]')
+      .exists('the close btn is now shown');
+    assert
+      .dom('[data-test-drawer__game-info]')
+      .doesNotExist('game info is no longer shown');
+    assert
+      .dom('[data-test-drawer__team-info]')
+      .exists('team info is now shown');
+
+    await click('[data-test-drawer__close-btn]');
+    assert.dom('[data-test-drawer]').doesNotHaveClass('drawer--open');
+    assert
+      .dom('[data-test-drawer__close-btn]')
+      .doesNotExist('the close btn is not shown');
+    assert
+      .dom('[data-test-drawer__game-info]')
+      .doesNotExist('game info is no longer shown');
+    assert
+      .dom('[data-test-drawer__team-info]')
+      .doesNotExist('team info is no longer shown');
   });
 });

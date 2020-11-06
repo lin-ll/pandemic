@@ -22,20 +22,18 @@ export default class RoleChooserComponent extends Component {
    * @returns {Array}
    */
   get availableRoles() {
-    const usedRoles = this.args.players.map((player) => player.role);
+    const players = this.args.players || [];
+    const usedRoles = players.map((player) => player.role);
     return [...ROLES].filter((role) => !usedRoles.includes(role.id));
   }
 
   /**
    * @description Change the current player's role
    * @param {Number} role
-   * @returns {Promise|null}
+   * @returns {Promise|void}
    */
   @action
   changeRole(role) {
-    if (role !== this.args.currentPlayer.role) {
-      this.args.currentPlayer.role = role;
-      return this.args.currentPlayer.save();
-    }
+    return this.args.currentPlayer.changeRole(role);
   }
 }
