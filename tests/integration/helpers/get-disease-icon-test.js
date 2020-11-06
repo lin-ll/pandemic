@@ -6,12 +6,33 @@ import { hbs } from 'ember-cli-htmlbars';
 module('Integration | Helper | get-disease-icon', function (hooks) {
   setupRenderingTest(hooks);
 
-  // TODO: Replace this with your real tests.
-  test('it renders', async function (assert) {
-    this.set('inputValue', '1234');
+  test('it returns the correct icon for the given status', async function (assert) {
+    this.set('status', 0);
+    await render(hbs`{{get-disease-icon this.status}}`);
+    assert.equal(this.element.textContent.trim(), 'skull');
 
-    await render(hbs`{{get-disease-icon inputValue}}`);
+    this.set('status', 1);
+    await render(hbs`{{get-disease-icon this.status}}`);
+    assert.equal(this.element.textContent.trim(), 'vial');
 
-    assert.equal(this.element.textContent.trim(), '1234');
+    this.set('status', 2);
+    await render(hbs`{{get-disease-icon this.status}}`);
+    assert.equal(this.element.textContent.trim(), 'ban');
+
+    this.set('status', 3);
+    await render(hbs`{{get-disease-icon this.status}}`);
+    assert.equal(
+      this.element.textContent.trim(),
+      '',
+      'returns empty string for an invalid number'
+    );
+
+    this.set('status', 'foobar');
+    await render(hbs`{{get-disease-icon this.status}}`);
+    assert.equal(
+      this.element.textContent.trim(),
+      '',
+      'returns empty string for an invalid status'
+    );
   });
 });

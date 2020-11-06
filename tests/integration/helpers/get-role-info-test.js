@@ -2,16 +2,28 @@ import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
 import { render } from '@ember/test-helpers';
 import { hbs } from 'ember-cli-htmlbars';
+import { ROLES } from 'pandemic/utils/constants';
+
+function renderRoleInfo() {
+  return render(hbs`
+    {{#let (get-role-info this.roleId) as |role|}}
+      {{role.id}},{{role.name}},{{role.description}}
+    {{/let}}
+  `);
+}
 
 module('Integration | Helper | get-role-info', function (hooks) {
   setupRenderingTest(hooks);
 
-  // TODO: Replace this with your real tests.
-  test('it renders', async function (assert) {
-    this.set('inputValue', '1234');
-
-    await render(hbs`{{get-role-info inputValue}}`);
-
-    assert.equal(this.element.textContent.trim(), '1234');
+  test('it gets the correct role info for the given role id', async function (assert) {
+    for (let i = 0; i < ROLES.length; i++) {
+      const role = ROLES[i];
+      this.set('roleId', i);
+      await renderRoleInfo();
+      assert.equal(
+        this.element.textContent.trim(),
+        `${role.id},${role.name},${role.description}`
+      );
+    }
   });
 });
