@@ -1,13 +1,7 @@
-$drawer-width: 300px;
-
 .pandemic-game {
   text-align: center;
   margin-top: 1rem;
   transition: 0.5s; /* 0.5 second transition effect to slide in the sidenav */
-}
-
-.pandemic-game--pushed {
-  margin-right: $drawer-width;
 }
 
 .pandemic-game__role-chooser {
@@ -15,32 +9,4 @@ $drawer-width: 300px;
   top: 0;
   left: 0;
   padding: 1.5rem;
-}
-
-.pandemic-game__drawer-btns {
-  position: fixed;
-  width: $drawer-width;
-  top: 0;
-  right: 0;
-  z-index: 10; /* Render above drawer */
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  padding: 1.5rem;
-}
-
-.pandemic-game__drawer {
-  height: 100%; /* 100% Full-height */
-  width: 0; /* 0 width - change this with JavaScript */
-  position: fixed; /* Stay in place */
-  z-index: 1; /* Stay on top */
-  top: 0; /* Stay at the top */
-  right: 0;
-  overflow-x: hidden; /* Disable horizontal scroll */
-  padding-top: 9.5rem; /* Place content 9.5rem from the top */
-  transition: 0.5s; /* 0.5 second transition effect to slide in the sidenav */
-}
-
-.pandemic-game__drawer--open {
-  width: $drawer-width;
 }

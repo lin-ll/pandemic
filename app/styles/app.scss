@@ -1,7 +1,11 @@
 @import 'ember-bootstrap/bootstrap';
+
+// Routes
 @import './pandemic-start';
 @import './pandemic-game';
 
+// Components
+@import './components/drawer';
 @import './components/game-info-display';
 @import './components/team-info-display';
 

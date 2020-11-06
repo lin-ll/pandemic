@@ -4,7 +4,9 @@
     padding: 0;
   }
 
-  > h5 > button:hover {
+  > h5 > button:hover,
+  > h5 > button:focus {
     text-decoration: none;
+    box-shadow: none;
   }
 }

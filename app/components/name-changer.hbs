@@ -1,0 +1,37 @@
+{{#if @currentPlayer}}
+  <BsForm
+    @formLayout="inline"
+    @model={{this}}
+    @onSubmit={{this.changeName}}
+    @disabled={{@disabled}}
+    class="justify-content-center mb-2" as |form|
+  >
+    <form.element
+      @controlType="text"
+      @property="currentPlayerName"
+      @label="Your name is:"
+      class="flex-nowrap ml-2" as |el|
+    >
+      <el.control
+        class="ml-2 pr-5"
+        value={{@currentPlayer.name}}
+        {{on 'focusout' form.submit}}
+      />
+      {{#if form.isSubmitting}}
+        <div class="spinner-grow spinner-grow-sm text-success ml-n4"></div>
+      {{else if form.isSubmitted}}
+        <i class="fas fa-check text-success ml-n4"></i>
+      {{else if form.isRejected}}
+        <i class="fas fa-times text-danger ml-n4">
+          <BsTooltip
+            @title="We encountered an error saving this info. Please try again."
+          />
+        </i>
+      {{/if}}
+    </form.element>
+  </BsForm>
+{{else}}
+  <p>
+    You are not a player in this game.
+  </p>
+{{/if}}

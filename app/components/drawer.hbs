@@ -1,0 +1,33 @@
+<div class="drawer_btns">
+  <div class="mb-3">
+    <BsButton
+      @onClick={{this.openTeamInfo}}
+      @type="info"
+      @active={{this.showTeamInfo}}
+      @defaultText="Team Info"
+    />
+    <BsButton
+      @onClick={{this.openGameInfo}}
+      @type="primary"
+      @active={{this.showGameInfo}}
+      @defaultText="Game Info"
+    />
+  </div>
+  {{#if this.showDrawer}}
+    <button
+      type="button"
+      aria-label="Close drawer"
+      class="close-btn rounded-circle"
+      {{on 'click' this.closeDrawer}}
+    ></button>
+  {{/if}}
+</div>
+<div class="drawer {{if this.showDrawer 'drawer--open'}} bg-light">
+  <div class="px-4">
+    {{#if this.showTeamInfo}}
+      <TeamInfoDisplay @players={{@game.players}} />
+    {{else if this.showGameInfo}}
+      <GameInfoDisplay @game={{@game}} />
+    {{/if}}
+  </div>
+</div>
