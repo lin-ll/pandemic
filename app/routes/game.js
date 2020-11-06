@@ -1,14 +1,17 @@
 import Route from '@ember/routing/route';
 import { inject as service } from '@ember/service';
 import { hash } from 'rsvp';
-import { MAX_PLAYERS, NUM_CITIES, CITIES } from '../utils/constants';
-import D3 from 'd3';
+import { MAX_PLAYERS } from '../utils/constants';
 import { action } from '@ember/object';
+import { mapInit } from '../utils/map-util';
 
 export default class GameRoute extends Route {
   @service('realtime-listener') realtimeListener;
 
+  tempCode;
+
   model({ code }) {
+    this.tempCode = code;
     return this.store
       .queryRecord('game', { filter: { code } })
       .then((game) => hash({ game, players: game.players }))
@@ -32,6 +35,7 @@ export default class GameRoute extends Route {
       });
   }
 
+<<<<<<< HEAD
 <<<<<<< HEAD
   deactivate() {
     this.realtimeListener.unsubscribe(this, this.model.game);
@@ -99,51 +103,29 @@ export default class GameRoute extends Route {
               .attr('fill', 'none');
             }
           });
+=======
+  @action
+  didTransition() {
+    let code = this.tempCode;
+    let gamePromise = this.store.queryRecord('game', { filter: { code } });
+>>>>>>> 4975b9b... Better organization, but in js. Going to switch to a component
 
-          
-        for (let i = 0; i < NUM_CITIES; i++) {
-          let city_info = CITIES[i];
-          maproot
-            .append('use')
-            .attr('href', '#city_marker')
-            .attr('fill', city_info.color)
-            .attr('x', city_info.pos[0])
-            .attr('y', city_info.pos[1]);
-        }
-          
-          // maproot
-          //   .append('use')
-          //   .attr('href', '#city_marker')
-          //   .attr('fill', city_info.color)
-          //   .attr('x', city_info.pos[0])
-          //   .attr('y', city_info.pos[1]);
-        }
+    gamePromise.then((game) => {
+      mapInit(game);
+    });
 
-        var x = 450;
-        var y = 400;
+    return true; // Bubble the didTransition event
+  }
 
-        maproot
-          .append('g')
-          .attr('id', 'test_house')
-          .attr('transform', `translate(${x} ${y})`)
-          .append(() => house_path)
-          .attr('stroke', 'red');
-        // .append('path')
-        // .attr('d', 'm -50,-35 50,70 50,-70')
-
-        // debugger
-
-        function mouseoverAction() {
-          D3.select(this).transition().duration(500).attr('fill', 'blue');
-        }
-        function mouseoutAction() {
-          D3.select(this).transition().duration(500).attr('fill', 'green');
-        }
-
+<<<<<<< HEAD
         maproot.select('#test_city').on('mouseover', mouseoverAction);
         maproot.select('#test_city').on('mouseout', mouseoutAction);
       });
     });
 >>>>>>> eb1846a... Add terrible-looking map
+=======
+  deactivate() {
+    this.realtimeListener.unsubscribe(this, this.model.game);
+>>>>>>> 4975b9b... Better organization, but in js. Going to switch to a component
   }
 }
