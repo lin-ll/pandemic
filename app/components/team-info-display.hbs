@@ -7,12 +7,9 @@
             {{player.name}}
           </span>
           {{#if player.isTurn}}
-            <FaIcon @icon="star" class="turn-indicator text-success" />
-            <BsTooltip
-              @title="It is this player's turn!"
-              @triggerElement=".turn-indicator"
-              @placement="right"
-            />
+            <i class="fas fa-star text-success">
+              <BsTooltip @title="It is this player's turn!" />
+            </i>
           {{/if}}
           <br />
           <span class="small text-secondary">
@@ -22,13 +19,17 @@
         <aitem.body>
           {{#if role}}
             <p>
-              <b>Role Description:</b>
+              <b>
+                Role Description:
+              </b>
               {{role.description}}
             </p>
           {{/if}}
           <p>
-              <b>Hand:</b>
-            </p>
+            <b>
+              Hand:
+            </b>
+          </p>
         </aitem.body>
       </acc.item>
     {{/let}}

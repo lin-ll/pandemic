@@ -7,6 +7,14 @@ module.exports = function (defaults) {
     'ember-bootstrap': {
       bootstrapVersion: 4,
       importBootstrapCSS: true,
+      whitelist: [
+        'bs-accordion',
+        'bs-button',
+        'bs-dropdown',
+        'bs-form',
+        'bs-popover',
+        'bs-tooltip',
+      ],
     },
     sassOptions: {
       extension: 'scss',
