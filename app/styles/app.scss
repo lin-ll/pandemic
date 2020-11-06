@@ -41,3 +41,7 @@ $close-btn-dim: 48px;
 .close-btn:after {
   transform: rotate(-45deg);
 }
+
+.overflow-scroll {
+  overflow: scroll !important;
+}

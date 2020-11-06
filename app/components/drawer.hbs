@@ -23,7 +23,7 @@
   {{/if}}
 </div>
 <div class="drawer {{if this.showDrawer 'drawer--open'}} bg-light">
-  <div class="px-4">
+  <div class="px-4 pb-4 h-100 overflow-scroll">
     {{#if this.showTeamInfo}}
       <TeamInfoDisplay @players={{@game.players}} />
     {{else if this.showGameInfo}}
