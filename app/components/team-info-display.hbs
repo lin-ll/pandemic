@@ -2,7 +2,7 @@
   {{#each @players as |player|}}
     {{#let (get-role-info player.role) as |role|}}
       <acc.item as |aitem|>
-        <aitem.title class="team-info-display__name">
+        <aitem.title>
           <span>
             {{player.name}}
           </span>
@@ -34,4 +34,93 @@
       </acc.item>
     {{/let}}
   {{/each}}
+</BsAccordion>
+<h5 class="mt-4">
+  Actions
+</h5>
+<BsAccordion class="mt-3" as |acc|>
+  <acc.item @title="Movement Actions">
+    <ul class="list-unstyled pl-2">
+      <li>
+        <h6>
+          Drive/Ferry
+        </h6>
+        <p class="text-secondary small">
+          Move to a city connected by a white line to the one you are in.
+        </p>
+      </li>
+      <li>
+        <h6>
+          Direct Flight
+        </h6>
+        <p class="text-secondary small">
+          Discard a City card to move to the city named on the card.
+        </p>
+      </li>
+      <li>
+        <h6>
+          Charter Flight
+        </h6>
+        <p class="text-secondary small">
+          Discard the City card that matches the city you are in to move to any city.
+        </p>
+      </li>
+      <li>
+        <h6>
+          Shuttle Flight
+        </h6>
+        <p class="text-secondary small">
+          Move from a city with a research station to any other city that has a research station.
+        </p>
+      </li>
+    </ul>
+  </acc.item>
+  <acc.item @title="Other Actions">
+    <ul class="list-unstyled pl-2">
+      <li>
+        <h6>
+          Build a Research Station
+        </h6>
+        <p class="text-secondary small">
+          Discard the City card that matches the city you are in to place a research station there. 
+          Take the research station from the pile next to the board. If all 6 research stations have been
+          built, take a research station from anywhere on the board.
+        </p>
+      </li>
+      <li>
+        <h6>
+          Treat Disease
+        </h6>
+        <p class="text-secondary small">
+          Remove 1 disease cube from the city you are in, placing it in the cube supply next to the board. 
+          If this disease color has been cured, remove all cubes of that color from the city you are in.
+          <br />
+          If the last cube of a cured disease is removed from the board, this disease is eradicated.
+        </p>
+      </li>
+      <li>
+        <h6>
+          Share Knowledge
+        </h6>
+        <p class="text-secondary small">
+          You can do this action in two ways:
+          (1) give the City card that matches the city you are in to another player, or
+          (2) take the City card that matches the city you are in from another player.
+          The other player must also be in the city with you. Both of you need to agree to do this.
+          <br />
+          If the player who gets the card now has more than 7 cards, that player must immediately discard a 
+          card or play an Event card.
+        </p>
+      </li>
+      <li>
+        <h6>
+          Discover a Cure
+        </h6>
+        <p class="text-secondary small">
+          At any research station, discard 5 City cards of the same color from you hand to cure the disease 
+          of that color. If no cubes of this color are on the board, this disease is now eradicated.
+        </p>
+      </li>
+    </ul>
+  </acc.item>
 </BsAccordion>
