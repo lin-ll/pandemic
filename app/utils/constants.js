@@ -4,6 +4,13 @@ export const HAND_LIMIT = 7;
 export const TOTAL_RESEARCH_STATIONS = 6;
 export const TOTAL_DISEASE_CUBES_PER_COLOR = 24;
 
+export const COLORS = Object.freeze({
+  RED: 'red',
+  BLUE: 'blue',
+  YELLOW: 'yellow',
+  BLACK: 'black',
+});
+
 export const INFECTION_RATES = Object.freeze([2, 2, 2, 3, 3, 4, 4]);
 
 // Roles
@@ -33,39 +40,50 @@ export const ROLES = Object.freeze(
   })
 );
 
-// Cities
-export const CITIES = [
+// Cities Info
+const CITIES_INFO = Object.freeze([
   {
     name: 'Atlanta',
-    color: 'blue',
+    color: COLORS.BLUE,
     connections: [2, 4, 12],
-    pos: [10.5, 20.2],
+    pos: { x: 10.5, y: 20.2 },
   },
   {
     name: 'Beijing',
-    color: 'red',
+    color: COLORS.RED,
     connections: [13, 14, 15],
-    pos: [30.6, 15.2],
+    pos: { x: 30.6, y: 15.2 },
   },
-];
+]);
 
-export const NUM_CITIES = CITIES.length;
+export const CITIES = CITIES_INFO.map(
+  (cityInfo) => new City(cityInfo.name, cityInfo.color, cityInfo.pos)
+).forEach((city, idx) => {
+  const connections = CITIES[idx].connections;
+  connections.forEach((connectionIdx) => {
+    city.addConnection(cities[connectionIdx]);
+  });
+});
 
-const non_city_player_cards = [
-  { name: 'Epidemic', is_city: false },
-  { name: 'Helicopter', is_city: false },
-];
+// Cards
+export const PLAYER_CARD_TYPES = Object.freeze({
+  CITY: 0,
+  EPIDEMIC: 1,
+  EVENT: 2,
+});
 
-function city_to_card(city) {
-  let card = {};
+export const CITY_CARDS = CITIES_INFO.map((cityInfo) => {
+  return {
+    name: cityInfo.name,
+    color: cityInfo.color,
+    type: PLAYER_CARD_TYPES.CITY,
+  };
+});
 
-  card.name = city.name;
-  card.isCity = true;
+const EVENT_CARDS = Object.freeze([]);
 
-  return card;
-}
+export const NON_EPIDEMIC_CARDS = CITY_CARDS.concat(EVENT_CARDS);
 
-// Decks
-export const PLAYERCARDS = CITIES.map(city_to_card).concat(
-  non_city_player_cards
-);
+export const EPIDEMIC_CARD = Object.freeze({
+  type: PLAYER_CARD_TYPES.EPIDEMIC,
+});

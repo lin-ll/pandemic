@@ -10,8 +10,10 @@ export default class PlayerModel extends Model {
   // e.g. Dispatcher, Medic, Scientist, Researcher, etc.
   @attr('number') role;
 
+  @attr currentCity;
+
   // Player's hand
-  @attr('numberArray') hand;
+  @attr hand;
 
   // Whether or not it is this player's turn
   @attr('boolean', { defaultValue: false }) isTurn;
@@ -19,6 +21,13 @@ export default class PlayerModel extends Model {
   // Player needs to discard / use cards if over the hand limit
   get overHandLimit() {
     return this.hand ? this.hand.length > HAND_LIMIT : false;
+  }
+
+  changeLocation(newCity) {
+    if (newCity && newCity !== this.currentCity) {
+      this.currentCity = newCity;
+      return this.save();
+    }
   }
 
   /**

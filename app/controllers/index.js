@@ -1,8 +1,8 @@
 import Controller from '@ember/controller';
 import { action } from '@ember/object';
-import { all, hash, reject } from 'rsvp';
+import { hash, reject } from 'rsvp';
 import { tracked } from '@glimmer/tracking';
-import { MAX_PLAYERS, NUM_CITIES } from '../utils/constants';
+import { CITIES, CITY_CARDS, MAX_PLAYERS } from '../utils/constants';
 
 const ALPHABET = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
 
@@ -96,23 +96,13 @@ export default class IndexController extends Controller {
     return this.store
       .createRecord('game', {
         code,
-        infectionDeck: [1, 2, 3],
+        infectionDeck: [...CITY_CARDS],
         infectionDiscard: [],
         playerDeck: [4, 5, 6],
         playerDiscard: [],
+        cities: CITIES,
       })
       .save()
-      .then((game) => {
-        const cityPromises = [];
-        for (let i = 0; i < NUM_CITIES; i++) {
-          const city = this.store.createRecord('city', {
-            cardId: i,
-            game,
-          });
-          cityPromises.push(city.save());
-        }
-        return all(cityPromises);
-      })
       .then(() => {
         this.transitionToRoute('game', code);
       })

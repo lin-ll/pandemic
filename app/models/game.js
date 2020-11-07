@@ -16,7 +16,7 @@ export default class GameModel extends Model {
   @hasMany('player') players;
 
   // List of cities in this game
-  @hasMany('city') cities;
+  @attr cities;
 
   /**
    * Decks:
@@ -25,10 +25,10 @@ export default class GameModel extends Model {
    * 3. Draw pile
    * 4. Discard pile
    */
-  @attr('numberArray') infectionDeck;
-  @attr('numberArray') infectionDiscard;
-  @attr('numberArray') playerDeck;
-  @attr('numberArray') playerDiscard;
+  @attr infectionDeck;
+  @attr infectionDiscard;
+  @attr playerDeck;
+  @attr playerDiscard;
 
   // Number of outbreaks that have occurred
   @attr('number', { defaultValue: 0 }) numOutbreaks;
@@ -47,7 +47,7 @@ export default class GameModel extends Model {
   @attr('number', { defaultValue: 0 }) cureStatusRed;
   @attr('number', { defaultValue: 0 }) cureStatusYellow;
 
-  // How many research stations are still available to construct
+  // How many research stations are still not built
   get remainingResearchStations() {
     return this.cities.reduce(
       (total, city) => total - (city.hasResearchStation ? 1 : 0),
