@@ -35,17 +35,17 @@ export default class GameRoute extends Route {
       });
   }
 
-  @action
-  didTransition() {
-    let code = this.tempCode;
-    let gamePromise = this.store.queryRecord('game', { filter: { code } });
+  // @action
+  // didTransition() {
+  //   let code = this.tempCode;
+  //   let gamePromise = this.store.queryRecord('game', { filter: { code } });
 
-    gamePromise.then((game) => {
-      mapInit(game);
-    });
+  //   gamePromise.then((game) => {
+  //     mapInit(game);
+  //   });
 
-    return true; // Bubble the didTransition event
-  }
+  //   return true; // Bubble the didTransition event
+  // }
 
   deactivate() {
     this.realtimeListener.unsubscribe(this, this.model.game);

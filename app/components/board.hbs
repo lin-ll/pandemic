@@ -1,0 +1,15 @@
+<svg id="svgMap" viewBox="0 0 1009.6727 665.96301">
+  <Map />
+  {{#each @gameModel.cities as |city|}}
+    <circle
+      id="city{{city.cardId}}"
+      r="20"
+      fill="red"
+      cx={{get-city-pos city.cardId 0}}
+      cy={{get-city-pos city.cardId 1}}
+      {{!-- onclick="growCity({{city.cardId}})" --}}
+      {{on "click" (fn this.growCity city.cardId)}}
+    ></circle>
+  {{/each}}
+  {{! <path d="m 10,10 50,100 50,-100" fill="red"/> }}
+</svg>

@@ -74,9 +74,13 @@
       </li>
     {{/each}}
   </p>
-  <div id="map_container">
-    <svg id="map" width="100%"></svg>
-  </div>
+
+
+<Board
+      @gameModel={{this.model.game}}
+/>
+
+
 </div>
 {{#if this.model.currentPlayer}}
   <div class="pandemic-game__role-chooser">
