@@ -37,6 +37,7 @@ export default class GameRoute extends Route {
 
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
   deactivate() {
     this.realtimeListener.unsubscribe(this, this.model.game);
 =======
@@ -109,13 +110,19 @@ export default class GameRoute extends Route {
     let code = this.tempCode;
     let gamePromise = this.store.queryRecord('game', { filter: { code } });
 >>>>>>> 4975b9b... Better organization, but in js. Going to switch to a component
+=======
+  // @action
+  // didTransition() {
+  //   let code = this.tempCode;
+  //   let gamePromise = this.store.queryRecord('game', { filter: { code } });
+>>>>>>> d6f3425... Switch to component version of board
 
-    gamePromise.then((game) => {
-      mapInit(game);
-    });
+  //   gamePromise.then((game) => {
+  //     mapInit(game);
+  //   });
 
-    return true; // Bubble the didTransition event
-  }
+  //   return true; // Bubble the didTransition event
+  // }
 
 <<<<<<< HEAD
         maproot.select('#test_city').on('mouseover', mouseoverAction);
