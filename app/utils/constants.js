@@ -1,45 +1,8 @@
-<<<<<<< HEAD
 // Game Constants
 export const MAX_PLAYERS = 4;
 export const HAND_LIMIT = 7;
 export const TOTAL_RESEARCH_STATIONS = 6;
 export const TOTAL_DISEASE_CUBES_PER_COLOR = 24;
-=======
-export const CITIES = [
-  {
-    name: 'Atlanta',
-    color: 'blue',
-    connections: [1],
-    pos: [100.5, 200.2],
-  },
-
-  {
-    name: 'Beijing',
-    color: 'red',
-    connections: [0,2],
-    pos: [300.6, 400.2],
-  },
-  {
-    name: 'Jakarta',
-    color: 'yellow',
-    connections: [1],
-    pos: [800, 300],
-  },
-];
-
-export const NUM_CITIES = CITIES.length;
-
-const non_city_player_cards = [
-  { name: 'Epidemic', is_city: false },
-  { name: 'Helicopter', is_city: false },
-];
-
-function city_to_card(city) {
-  let card = {};
-
-  card.name = city.name;
-  card.isCity = true;
->>>>>>> d6f3425f99498a11d11afa60f0e08077d2e45aaf
 
 export const COLORS = Object.freeze({
   RED: 'red',
