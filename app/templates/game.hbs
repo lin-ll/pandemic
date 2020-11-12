@@ -39,10 +39,76 @@
       The game has not started.
     </p>
   {{/if}}
+<<<<<<< HEAD
 </div>
 <div id="map_container">
   <svg id="map" width="100%"></svg>
 </div>
 <div id="map_container" style="height: 1000px">
   <svg id="map" width="100%" height="100%"></svg>
+=======
+  <p>
+    cities
+    {{#each this.model.game.cities as |city|}}
+      <li>
+        id is
+        {{city.cardId}}
+      </li>
+    {{/each}}
+  </p>
+
+
+<Board
+      @gameModel={{this.model.game}}
+/>
+
+
+</div>
+{{#if this.model.currentPlayer}}
+  <div class="pandemic-game__role-chooser">
+    <RoleChooser
+      @currentPlayer={{this.model.currentPlayer}}
+      @players={{this.model.game.players}}
+      @inProgress={{this.model.game.inProgress}}
+      @selectItem={{this.changeRole}}
+    />
+  </div>
+{{/if}}
+<div class="pandemic-game__drawer-btns">
+  <div class="mb-3">
+    <BsButton
+      @onClick={{this.openTeamInfo}}
+      @type="info"
+      @active={{this.showTeamInfo}}
+      @defaultText="Team Info"
+    />
+    <BsButton
+      @onClick={{this.openGameInfo}}
+      @type="primary"
+      @active={{this.showGameInfo}}
+      @defaultText="Game Info"
+    />
+  </div>
+  {{#if this.showDrawer}}
+    <button
+      type="button"
+      aria-label="Close drawer"
+      class="close-btn rounded-circle"
+      {{on 'click' this.closeDrawer}}
+    ></button>
+  {{/if}}
+</div>
+<div
+  class="pandemic-game__drawer
+    {{if this.showDrawer 'pandemic-game__drawer--open'}}
+     bg-light"
+>
+  <div class="px-4">
+    {{#if this.showTeamInfo}}
+      <TeamInfoDisplay @players={{this.model.game.players}} />
+    {{else if this.showGameInfo}}
+      <GameInfoDisplay @game={{this.model.game}} />
+    {{/if}}
+  </div>
+>>>>>>> d6f3425f99498a11d11afa60f0e08077d2e45aaf
 </div>
