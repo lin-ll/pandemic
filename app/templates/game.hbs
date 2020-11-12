@@ -18,7 +18,6 @@
       </BsPopover>
     </BsButton>
   </p>
-<<<<<<< HEAD
   <NameChanger
     @currentPlayer={{this.model.currentPlayer}}
     @disabled={{this.model.game.inProgress}}
@@ -30,57 +29,6 @@
       turn.
     </p>
   {{else if this.model.currentPlayer}}
-=======
-  <BsForm
-    @formLayout="inline"
-    @model={{this}}
-    @onSubmit={{this.changeName}}
-    class="justify-content-center" as |form|
-  >
-    <form.element
-      @controlType="text"
-      @property="currentPlayerName"
-      @label="Your name is:"
-      class="flex-nowrap ml-2" as |el|
-    >
-      <el.control
-        class="ml-2 pr-5"
-        value={{this.model.currentPlayer.name}}
-        {{on 'focusout' form.submit}}
-      />
-      {{#if form.isSubmitting}}
-        <div class="spinner-grow spinner-grow-sm text-success ml-n4"></div>
-      {{else if form.isSubmitted}}
-        <FaIcon @icon="check" class="text-success ml-n4" />
-      {{else if form.isRejected}}
-        <FaIcon @icon="times" class="change-name-error text-danger ml-n4" />
-        <BsTooltip
-          @title="We encountered an error saving this info. Please try again."
-          @triggerElement=".change-name-error"
-        />
-      {{/if}}
-    </form.element>
-  </BsForm>
-  <p id="test_id">
-    {{#each model.game.cities as |city|}}
-      cities
-      <li>
-        id is
-        {{city.cardId}}
-      </li>
-    {{/each}}
-  </p>
-
-
-<Board
-      @gameModel={{this.model.game}}
-/>
-
-
-</div>
-<div class="pandemic-game__drawer-btns">
-  <div class="mb-3">
->>>>>>> eb1846a... Add terrible-looking map
     <BsButton
       @type="dark"
       @onClick={{this.startGame}}
@@ -92,34 +40,9 @@
     </p>
   {{/if}}
 </div>
-<<<<<<< HEAD
 <div id="map_container">
   <svg id="map" width="100%"></svg>
-=======
-<div
-  class="pandemic-game__drawer
-    {{if this.showDrawer 'pandemic-game__drawer--open'}}
-     bg-light"
->
-  <div class="px-4">
-    {{#if this.showTeamInfo}}
-      {{#each this.model.game.players as |player|}}
-        <li
-          class="pandemic-game__player
-            {{if player.isTurn 'pandemic-game__player--active'}}"
-        >
-          {{player.name}}
-        </li>
-      {{/each}}
-    {{else if this.showGameInfo}}
-      Game info
-    {{/if}}
-  </div>
-<<<<<<< HEAD
 </div>
 <div id="map_container" style="height: 1000px">
   <svg id="map" width="100%" height="100%"></svg>
->>>>>>> eb1846a... Add terrible-looking map
-=======
->>>>>>> 84dcfb4... Update map to populate with cities
 </div>
