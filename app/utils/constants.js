@@ -1,3 +1,5 @@
+import City from './city';
+
 // Game Constants
 export const MAX_PLAYERS = 4;
 export const HAND_LIMIT = 7;
@@ -56,14 +58,17 @@ const CITIES_INFO = Object.freeze([
   },
 ]);
 
+
 export const CITIES = CITIES_INFO.map(
   (cityInfo) => new City(cityInfo.name, cityInfo.color, cityInfo.pos)
-).forEach((city, idx) => {
-  const connections = CITIES[idx].connections;
-  connections.forEach((connectionIdx) => {
-    city.addConnection(cities[connectionIdx]);
-  });
-});
+)
+
+// .forEach((city, idx) => {
+//   const connections = CITIES_INFO[idx].connections;
+//   connections.forEach((connectionIdx) => {
+//     city.addConnection(cities[connectionIdx]);
+//   });
+// });
 
 // Cards
 export const PLAYER_CARD_TYPES = Object.freeze({
